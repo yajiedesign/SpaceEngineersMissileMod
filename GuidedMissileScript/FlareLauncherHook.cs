@@ -3,7 +3,6 @@ using Sandbox.Common;
 using Sandbox.Common.Components;
 using Sandbox.Common.ModAPI;
 using Sandbox.Common.ObjectBuilders;
-using Sandbox.Common.ObjectBuilders.Gui;
 using Sandbox.Definitions;
 using Sandbox.Engine;
 using Sandbox.Engine.Multiplayer;

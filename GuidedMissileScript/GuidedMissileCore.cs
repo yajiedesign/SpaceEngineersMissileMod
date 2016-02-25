@@ -3,7 +3,6 @@ using Sandbox.Common;
 using Sandbox.Common.Components;
 using Sandbox.Common.ModAPI;
 using Sandbox.Common.ObjectBuilders;
-using Sandbox.Common.ObjectBuilders.Gui;
 using Sandbox.Definitions;
 using Sandbox.Engine;
 using Sandbox.Engine.Multiplayer;
@@ -26,6 +25,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using VRage;
 using VRage.Common.Utils;
+using VRage.Game;
 using VRage.Game.Components;
 using VRage.Input;
 using VRage.ModAPI;
@@ -59,7 +59,8 @@ namespace GuidedMissile.GuidedMissileScript
                 if (onExplode != null) OnExplode = onExplode;
                 HasPhysicsSteering = hasPhysicsSteering;
             }
-            public MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer, float turningSpeed)
+
+            private MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer, float turningSpeed)
             {
                 Missile = missile;
                 Target = target;
@@ -536,9 +537,9 @@ namespace GuidedMissile.GuidedMissileScript
             delFromWarningSet.Clear();
 
             Dictionary<long, MissileDataContainer>.KeyCollection keyCollection = guidedMissileDict.Keys;
-            MissileDataContainer missileData;
             foreach (long key in keyCollection)
             {
+                MissileDataContainer missileData;
                 if (guidedMissileDict.TryGetValue(key, out missileData))
                 {
                     if (missileData.IsExpired())
@@ -577,16 +578,16 @@ namespace GuidedMissile.GuidedMissileScript
     public class GuidedMissileCore : MySessionComponentBase
     {
 
-        private static Random r;
+        private static Random _r;
 
-        public static Random GetSyncedRandom() { return r; }
+        public static Random GetSyncedRandom() { return _r; }
         /**    private static void SendAction(byte[] message)
             {
                 UInt64Converter idConv = new UInt64Converter(message);
                 ulong id = idConv.Value;
             //    byte[] seedArray = BitConverter.GetBytes(MyAPIGateway.Session.ElapsedPlayTime.Milliseconds);
                 Int32Converter c = MyAPIGateway.Session.ElapsedPlayTime.Milliseconds;
-                r = new Random(c.Value);
+                _r = new Random(c.Value);
                 byte[] seedArray = { c.Byte1, c.Byte2, c.Byte3, c.Byte4 };
                 MyAPIGateway.Multiplayer.SendMessageTo(0, seedArray, id, true);
                 Log.Info("AskMessage received! Send Seed " + MyAPIGateway.Session.ElapsedPlayTime.Milliseconds + " to user " + id);
@@ -597,14 +598,14 @@ namespace GuidedMissile.GuidedMissileScript
             {
              //   int Seed = BitConverter.ToInt32(message, 0);
                 int Seed = (new Int32Converter(message)).Value;
-                r = new Random(0);
+                _r = new Random(0);
                 Log.Info("SeedMessage received! Set Seed to " + Seed);
             } **/
 
         private static void ReceiveSeed(byte[] message)
         {
             int seed = (new Int32Converter(message)).Value;
-            r = new Random(seed);
+            _r = new Random(seed);
             Log.Info("SeedMessage received! Set Seed to " + seed);
         }
 
@@ -618,7 +619,7 @@ namespace GuidedMissile.GuidedMissileScript
             if (MyAPIGateway.Multiplayer.IsServer)
             {
                 //Log.Info("initial Seed created on server");
-                r = new Random(MyAPIGateway.Session.ElapsedPlayTime.Milliseconds);
+                _r = new Random(MyAPIGateway.Session.ElapsedPlayTime.Milliseconds);
                 //    Action<byte[]> sendAction = SendAction;
                 //   MyAPIGateway.Multiplayer.RegisterMessageHandler(0, sendAction);
 
@@ -639,7 +640,7 @@ namespace GuidedMissile.GuidedMissileScript
 
             Log.Info("Initialized.");
             init = true;
-            //  r = new Random(MyAPIGateway.Session.ElapsedPlayTime.Milliseconds);
+            //  _r = new Random(MyAPIGateway.Session.ElapsedPlayTime.Milliseconds);
             ALLOCATE_RANDOM();
         }
 
@@ -667,12 +668,12 @@ namespace GuidedMissile.GuidedMissileScript
                 {
                     if (MyAPIGateway.Session.ElapsedPlayTime.Milliseconds % 2000 == 0)
                     {
-                        int nextSeedNumber = r.Next(100000);
+                        int nextSeedNumber = _r.Next(100000);
                         Int32Converter i = nextSeedNumber;
                         byte[] byteArray = { i.Byte1, i.Byte2, i.Byte3, i.Byte4 };
                         MyAPIGateway.Multiplayer.SendMessageToOthers(2, byteArray);
                         //  Log.Info("sent message to others");
-                        r = new Random(nextSeedNumber);
+                        _r = new Random(nextSeedNumber);
                         //  Log.Info("created new random with Seed " + nextSeedNumber);
                     }
                 }
