@@ -44,14 +44,14 @@ namespace GuidedMissile.GuidedMissileScript
         public static void Error(string msg)
         {
             Info("ERROR: " + msg);
-            
+
             try
             {
                 string text = MOD_NAME + " error - open %AppData%/SpaceEngineers/Storage/..._" + MOD_NAME + "/" + LOG_FILE + " for details";
-                
+
                 MyLog.Default.WriteLineAndConsole(text);
-                
-                if(notify == null)
+
+                if (notify == null)
                 {
                     notify = MyAPIGateway.Utilities.CreateNotification(text, 10000, MyFontEnum.Red);
                 }
@@ -60,7 +60,7 @@ namespace GuidedMissile.GuidedMissileScript
                     notify.Text = text;
                     notify.ResetAliveTime();
                 }
-                
+
                 notify.Show();
             }
             catch (Exception e)
@@ -68,7 +68,7 @@ namespace GuidedMissile.GuidedMissileScript
                 Info("ERROR: Could not send notification to local client: " + e.ToString());
             }
         }
-        
+
         public static void Info(string msg)
         {
             Write(msg);
@@ -78,7 +78,7 @@ namespace GuidedMissile.GuidedMissileScript
         {
             try
             {
-                if(writer == null)
+                if (writer == null)
                 {
                     if (MyAPIGateway.Utilities == null)
                         throw new Exception("API not initialied but got a log message: " + msg);
@@ -89,7 +89,7 @@ namespace GuidedMissile.GuidedMissileScript
                 cache.Clear();
                 cache.Append(DateTime.Now.ToString("[HH:mm:ss] "));
 
-                for(int i = 0; i < indent; i++)
+                for (int i = 0; i < indent; i++)
                 {
                     cache.Append("\t");
                 }
@@ -101,15 +101,15 @@ namespace GuidedMissile.GuidedMissileScript
 
                 cache.Clear();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                MyLog.Default.WriteLineAndConsole(MOD_NAME + " had an error while logging message='"+msg+"'\nLogger error: " + e.Message + "\n" + e.StackTrace);
+                MyLog.Default.WriteLineAndConsole(MOD_NAME + " had an error while logging message='" + msg + "'\nLogger error: " + e.Message + "\n" + e.StackTrace);
             }
         }
-        
+
         public static void Close()
         {
-            if(writer != null)
+            if (writer != null)
             {
                 writer.Flush();
                 writer.Close();

@@ -28,7 +28,8 @@ namespace GuidedMissile.GuidedMissileScript
             Value = value;
         }
 
-        public Int32Converter(byte[] byteArray) {
+        public Int32Converter(byte[] byteArray)
+        {
             Value = 0;
             Byte1 = byteArray[0];
             Byte2 = byteArray[1];
@@ -111,7 +112,8 @@ namespace GuidedMissile.GuidedMissileScript
             Byte1 = Byte2 = 0;
             Value = value;
         }
-        public UInt16Converter(byte[] byteArray) {
+        public UInt16Converter(byte[] byteArray)
+        {
             Value = 0;
             Byte1 = byteArray[0];
             Byte2 = byteArray[1];

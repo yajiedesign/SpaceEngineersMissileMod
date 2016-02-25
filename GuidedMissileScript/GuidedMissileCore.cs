@@ -51,27 +51,29 @@ namespace GuidedMissile.GuidedMissileScript
             public float overshootDistance = 0;
 
             public bool finishedOvershooting = false;
-            public Action<IMyEntity> OnExplode = delegate(IMyEntity entity) { Log.Info("An empty onexplode was called"); };
+            public Action<IMyEntity> OnExplode = delegate (IMyEntity entity) { Log.Info("An empty onexplode was called"); };
 
             public MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer, float turningSpeed, Action<IMyEntity> onExplode, bool hasPhysicsSteering)
                 : this(missile, target, safetyTimer, deathTimer, turningSpeed)
             {
-                if(onExplode != null) OnExplode = onExplode;
+                if (onExplode != null) OnExplode = onExplode;
                 HasPhysicsSteering = hasPhysicsSteering;
             }
-            public MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer, float turningSpeed) {
+            public MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer, float turningSpeed)
+            {
                 Missile = missile;
                 Target = target;
                 TrackedFrames = -safetyTimer;
                 DeathTimer = deathTimer;
                 TurningSpeed = turningSpeed;
-            
+
             }
             public void SetOvershootDistance(float distance) { overshootDistance = distance; }
             public void ClearOvershootDistance() { overshootDistance = 0f; }
             public void StartOverShooting() { isOvershooting = true; }
-            public void StopOverShooting() {isOvershooting = false;}
-            public MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer) {
+            public void StopOverShooting() { isOvershooting = false; }
+            public MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer)
+            {
                 Missile = missile;
                 Target = target;
                 TrackedFrames = -safetyTimer;
@@ -95,21 +97,24 @@ namespace GuidedMissile.GuidedMissileScript
                 Missile = null;
                 Target = null;
             }
-            
+
             public bool IsExpired()
             {
                 if (Missile == null) return true;
-                if (Target == null)  return true;
-                if (Missile.MarkedForClose) {
+                if (Target == null) return true;
+                if (Missile.MarkedForClose)
+                {
                     OnExplode(Missile);
                     return true;
-                } 
-                if (TrackedFrames > DeathTimer) {
+                }
+                if (TrackedFrames > DeathTimer)
+                {
                     Missile.Close();
                     return true;
                 }
-                if (Target.MarkedForClose) {
-                   // Log.Info("Target is marked for close, searching new one");
+                if (Target.MarkedForClose)
+                {
+                    // Log.Info("Target is marked for close, searching new one");
                     if (Target.GetTopMostParent().MarkedForClose) return true;
                     IMyEntity newTarget = GuidedMissileTargetGridHook.GetRandomBlockInGrid(Target);
                     if (newTarget == null) return true;
@@ -117,21 +122,22 @@ namespace GuidedMissile.GuidedMissileScript
                     isOvershooting = false;
                     overshootDistance = 0f;
                     finishedOvershooting = false;
-                    return false; 
-                  //  return true;
-                
-                } 
+                    return false;
+                    //  return true;
+
+                }
                 return false;
             }
-            
-            public void Update() {
+
+            public void Update()
+            {
                 if (SafetyTimerIsOver())
                 {
-                    
-              //      if (Missile.Physics.Flags != RigidBodyFlag.RBF_BULLET) Missile.Physics.Flags = RigidBodyFlag.RBF_BULLET;
+
+                    //      if (Missile.Physics.Flags != RigidBodyFlag.RBF_BULLET) Missile.Physics.Flags = RigidBodyFlag.RBF_BULLET;
                     //     float TURNING_SPEED = 0.1f;
                     //   float FACTOR = 2f;
-                //    Log.Info("Missile.Physics.Flags");
+                    //    Log.Info("Missile.Physics.Flags");
                     //BLEH
                     Vector3 targetPoint = Vector3.Zero;
                     try
@@ -187,7 +193,7 @@ namespace GuidedMissile.GuidedMissileScript
                                     {
                                         targetPoint = boundingBoxCenter;
                                     }
-                                   
+
                                 }
                             }
 
@@ -213,7 +219,7 @@ namespace GuidedMissile.GuidedMissileScript
 
                     float maxRadVelocity = MathHelper.ToRadians(TurningSpeed);
                     float angle = MyUtils.GetAngleBetweenVectorsAndNormalise(Missile.WorldMatrix.Forward, targetDirection);
-                   // Log.Info("angle = " + MathHelper.ToDegrees(angle));
+                    // Log.Info("angle = " + MathHelper.ToDegrees(angle));
                     float turnPercent = 0f;
 
                     if (Math.Abs(angle) < double.Epsilon)
@@ -229,7 +235,7 @@ namespace GuidedMissile.GuidedMissileScript
                         turnPercent = 1f;
                     }
 
-                    
+
                     Matrix targetMatrix = Matrix.CreateWorld(Missile.GetPosition(), targetDirection, Vector3D.CalculatePerpendicularVector(targetDirection));//Matrix.CreateFromYawPitchRoll(0f, (float)Math.PI*0.5f, 0f)));
 
                     var slerpMatrix = Matrix.Slerp(Missile.WorldMatrix, targetMatrix, turnPercent);
@@ -248,11 +254,11 @@ namespace GuidedMissile.GuidedMissileScript
                         Vector3 linVel = Missile.Physics.LinearVelocity;
                         Missile.Physics.LinearVelocity = Vector3.Normalize(Missile.WorldMatrix.Forward) * linVel.Length();
                     }
- 
+
 
                 }
                 else {
-               //     if (Missile.Physics.Flags == RigidBodyFlag.RBF_BULLET) Missile.Physics.Flags = RigidBodyFlag.RBF_BULLET & RigidBodyFlag.RBF_DISABLE_COLLISION_RESPONSE;
+                    //     if (Missile.Physics.Flags == RigidBodyFlag.RBF_BULLET) Missile.Physics.Flags = RigidBodyFlag.RBF_BULLET & RigidBodyFlag.RBF_DISABLE_COLLISION_RESPONSE;
                 }
                 Tick();
             }
@@ -278,7 +284,7 @@ namespace GuidedMissile.GuidedMissileScript
         private HashSet<IMyEntity> deleteTurretSet;
 
         private HashSet<WarningMessageContainer> warningGridSet;
-        
+
         private GuidedMissileSingleton()
         {
             guidedMissileDict = new Dictionary<long, MissileDataContainer>();
@@ -288,7 +294,7 @@ namespace GuidedMissile.GuidedMissileScript
             IgnoreSet = new HashSet<IMyEntity>();
             warningGridSet = new HashSet<WarningMessageContainer>();
 
-          //  Log.Info("GuidedMissileSingleton was created.");
+            //  Log.Info("GuidedMissileSingleton was created.");
         }
 
         public static GuidedMissileSingleton GetInstance()
@@ -305,24 +311,29 @@ namespace GuidedMissile.GuidedMissileScript
             GetInstance().UpdateBeforeSimulation();
 
         }
-        private class WarningMessageContainer {
+        private class WarningMessageContainer
+        {
             public long Ticks = 0;
             public IMyEntity Grid;
 
-            public WarningMessageContainer(IMyEntity grid) {
+            public WarningMessageContainer(IMyEntity grid)
+            {
                 this.Grid = grid;
             }
 
-            public void Update() {
+            public void Update()
+            {
                 Ticks++;
             }
         }
 
-        private void DisplayWarningMessage(IMyEntity target) {
+        private void DisplayWarningMessage(IMyEntity target)
+        {
 
             IMyEntity grid = target.GetTopMostParent();
             bool alreadyContained = false;
-            foreach (WarningMessageContainer container in warningGridSet) {
+            foreach (WarningMessageContainer container in warningGridSet)
+            {
                 if (container.Grid == grid) alreadyContained = true;
             }
             if (!alreadyContained)
@@ -359,7 +370,7 @@ namespace GuidedMissile.GuidedMissileScript
                                 if (player.Controller.ControlledEntity.Entity.EntityId == entity.EntityId)
                                 {
                                     MyAPIGateway.Utilities.ShowNotification("WARNING! MISSILE LOCKON DETECTED!", 5000, MyFontEnum.Red);
-                                   
+
                                     warningGridSet.Add(new WarningMessageContainer(grid));
                                 }
                             }
@@ -367,8 +378,8 @@ namespace GuidedMissile.GuidedMissileScript
                     }
                 }
             }
-            else { 
-            
+            else {
+
             }
         }
         public static HashSet<IMyEntity> GetMissilesByTargetGrid(IMyEntity grid)
@@ -381,7 +392,7 @@ namespace GuidedMissile.GuidedMissileScript
             if (grid != null)
             {
 
-              //  Log.Info("grid wasnt null");
+                //  Log.Info("grid wasnt null");
                 ICollection<MissileDataContainer> mdContainers = GetInstance().guidedMissileDict.Values;
 
                 HashSet<IMyEntity> missileSet = new HashSet<IMyEntity>();
@@ -392,7 +403,7 @@ namespace GuidedMissile.GuidedMissileScript
                     var missile = container.Missile;
                     var target = container.Target;
                     if (target.GetTopMostParent() == grid) missileSet.Add(missile);
-         //           Log.Info("added missile to targetedongridset " + missileSet.Count);
+                    //           Log.Info("added missile to targetedongridset " + missileSet.Count);
 
                 }
                 return missileSet;
@@ -401,27 +412,29 @@ namespace GuidedMissile.GuidedMissileScript
             Log.Info("returning null");
             return null;
         }
-        public static bool SetTargetForMissile(IMyEntity missile, IMyEntity target) {
+        public static bool SetTargetForMissile(IMyEntity missile, IMyEntity target)
+        {
             return GetInstance().SetTargetForMissileInDict(missile, target);
         }
-        public bool SetTargetForMissileInDict(IMyEntity missile, IMyEntity target) {
+        public bool SetTargetForMissileInDict(IMyEntity missile, IMyEntity target)
+        {
             if (missile == null) return false;
             if (target == null) return false;
             if (target.MarkedForClose) return false;
-          //  Log.Info("neither target nor missile are null");
+            //  Log.Info("neither target nor missile are null");
             if (!guidedMissileDict.ContainsKey(missile.EntityId)) return false;
             if (missile.MarkedForClose) return false;
-          //  Log.Info("missiledict contains missile and isnt marked for close");
+            //  Log.Info("missiledict contains missile and isnt marked for close");
             MissileDataContainer mdC;
             guidedMissileDict.TryGetValue(missile.EntityId, out mdC);
             mdC.Target = target;
-          //  Log.Info("SetTargetForMissile: return true");
+            //  Log.Info("SetTargetForMissile: return true");
             return true;
         }
         public bool AddMissileToDict(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer, float turningSpeed, Action<IMyEntity> onExplode, bool hasPhysicsSteering)
         {
             if (!(missile.GetType().ToString() == "Sandbox.Game.Weapons.MyMissile")) return false;
-            
+
             if ((missile == null) || (target == null)) return false;
 
             if (guidedMissileDict.ContainsKey(missile.EntityId)) return false;
@@ -434,7 +447,7 @@ namespace GuidedMissile.GuidedMissileScript
 
         public bool AddMissileToDict(IMyEntity missile, IMyEntity target, long safetyTimer)
         {
-            
+
             return AddMissileToDict(missile, target, safetyTimer, 10000, 0.1f, null, false);
         }
 
@@ -461,7 +474,8 @@ namespace GuidedMissile.GuidedMissileScript
             guidedMissileDict.Remove(missile.EntityId);
             return true;
         }
-        public static bool IsGuidedMissile(IMyEntity missile) {
+        public static bool IsGuidedMissile(IMyEntity missile)
+        {
             return GetInstance().MissileIsGuided(missile);
         }
         public bool MissileIsGuided(IMyEntity missile)
@@ -471,13 +485,13 @@ namespace GuidedMissile.GuidedMissileScript
 
         public bool AddTurretToSet(IMyEntity turret)
         {
-       //     Log.Info("tried to add turret to set");
+            //     Log.Info("tried to add turret to set");
             return turretSet.Add(turret);
         }
 
         public bool RemoveTurretFromSet(IMyEntity turret)
         {
-       //     Log.Info("tried to remove turret from Set");
+            //     Log.Info("tried to remove turret from Set");
             return turretSet.Remove(turret);
         }
 
@@ -497,8 +511,10 @@ namespace GuidedMissile.GuidedMissileScript
         {
             HashSet<IMyEntity> delFromIgnoreSet = new HashSet<IMyEntity>();
 
-            foreach (IMyEntity ent in IgnoreSet) {
-                if (ent != null) {
+            foreach (IMyEntity ent in IgnoreSet)
+            {
+                if (ent != null)
+                {
                     if (ent.MarkedForClose) delFromIgnoreSet.Add(ent);
                 }
             }
@@ -564,28 +580,29 @@ namespace GuidedMissile.GuidedMissileScript
         private static Random r;
 
         public static Random GetSyncedRandom() { return r; }
-    /**    private static void SendAction(byte[] message)
-        {
-            UInt64Converter idConv = new UInt64Converter(message);
-            ulong id = idConv.Value;
-        //    byte[] seedArray = BitConverter.GetBytes(MyAPIGateway.Session.ElapsedPlayTime.Milliseconds);
-            Int32Converter c = MyAPIGateway.Session.ElapsedPlayTime.Milliseconds;
-            r = new Random(c.Value);
-            byte[] seedArray = { c.Byte1, c.Byte2, c.Byte3, c.Byte4 };
-            MyAPIGateway.Multiplayer.SendMessageTo(0, seedArray, id, true);
-            Log.Info("AskMessage received! Send Seed " + MyAPIGateway.Session.ElapsedPlayTime.Milliseconds + " to user " + id);
-            
-        }
+        /**    private static void SendAction(byte[] message)
+            {
+                UInt64Converter idConv = new UInt64Converter(message);
+                ulong id = idConv.Value;
+            //    byte[] seedArray = BitConverter.GetBytes(MyAPIGateway.Session.ElapsedPlayTime.Milliseconds);
+                Int32Converter c = MyAPIGateway.Session.ElapsedPlayTime.Milliseconds;
+                r = new Random(c.Value);
+                byte[] seedArray = { c.Byte1, c.Byte2, c.Byte3, c.Byte4 };
+                MyAPIGateway.Multiplayer.SendMessageTo(0, seedArray, id, true);
+                Log.Info("AskMessage received! Send Seed " + MyAPIGateway.Session.ElapsedPlayTime.Milliseconds + " to user " + id);
+                
+            }
 
-        private static void ReceiveAction(byte[] message)
-        {
-         //   int Seed = BitConverter.ToInt32(message, 0);
-            int Seed = (new Int32Converter(message)).Value;
-            r = new Random(0);
-            Log.Info("SeedMessage received! Set Seed to " + Seed);
-        } **/
+            private static void ReceiveAction(byte[] message)
+            {
+             //   int Seed = BitConverter.ToInt32(message, 0);
+                int Seed = (new Int32Converter(message)).Value;
+                r = new Random(0);
+                Log.Info("SeedMessage received! Set Seed to " + Seed);
+            } **/
 
-        private static void ReceiveSeed(byte[] message) {
+        private static void ReceiveSeed(byte[] message)
+        {
             int seed = (new Int32Converter(message)).Value;
             r = new Random(seed);
             Log.Info("SeedMessage received! Set Seed to " + seed);
@@ -593,36 +610,36 @@ namespace GuidedMissile.GuidedMissileScript
 
         private static void ALLOCATE_RANDOM()
         {
-           // Log.Info("were in MP : " + MyAPIGateway.Multiplayer.MultiplayerActive);
-           // Log.Info("were the server host: " + MyAPIGateway.Multiplayer.IsServer);
+            // Log.Info("were in MP : " + MyAPIGateway.Multiplayer.MultiplayerActive);
+            // Log.Info("were the server host: " + MyAPIGateway.Multiplayer.IsServer);
 
-         //   if (!MyAPIGateway.Multiplayer.MultiplayerActive) return;
+            //   if (!MyAPIGateway.Multiplayer.MultiplayerActive) return;
 
             if (MyAPIGateway.Multiplayer.IsServer)
             {
                 //Log.Info("initial Seed created on server");
                 r = new Random(MyAPIGateway.Session.ElapsedPlayTime.Milliseconds);
-            //    Action<byte[]> sendAction = SendAction;
-             //   MyAPIGateway.Multiplayer.RegisterMessageHandler(0, sendAction);
+                //    Action<byte[]> sendAction = SendAction;
+                //   MyAPIGateway.Multiplayer.RegisterMessageHandler(0, sendAction);
 
             }
             else
             {
-             //   Log.Info("setting up message handler to receive Seed");
+                //   Log.Info("setting up message handler to receive Seed");
                 MyAPIGateway.Multiplayer.RegisterMessageHandler(2, ReceiveSeed);
-               // UInt64Converter idConv = new UInt64Converter(MyAPIGateway.Multiplayer.MyId);
-              //  byte[] byteArray = { idConv.Byte1, idConv.Byte2, idConv.Byte3, idConv.Byte4, idConv.Byte5, idConv.Byte6, idConv.Byte7, idConv.Byte8 };
-              //  MyAPIGateway.Multiplayer.SendMessageToServer(0, byteArray);
-              //  Log.Info("message to server sent!");
+                // UInt64Converter idConv = new UInt64Converter(MyAPIGateway.Multiplayer.MyId);
+                //  byte[] byteArray = { idConv.Byte1, idConv.Byte2, idConv.Byte3, idConv.Byte4, idConv.Byte5, idConv.Byte6, idConv.Byte7, idConv.Byte8 };
+                //  MyAPIGateway.Multiplayer.SendMessageToServer(0, byteArray);
+                //  Log.Info("message to server sent!");
             }
-        } 
+        }
         public static bool init { get; private set; }
         public void Init()
         {
 
             Log.Info("Initialized.");
             init = true;
-          //  r = new Random(MyAPIGateway.Session.ElapsedPlayTime.Milliseconds);
+            //  r = new Random(MyAPIGateway.Session.ElapsedPlayTime.Milliseconds);
             ALLOCATE_RANDOM();
         }
 
@@ -646,27 +663,30 @@ namespace GuidedMissile.GuidedMissileScript
             else
             {
                 GuidedMissileSingleton.Update();
-                if ((MyAPIGateway.Multiplayer.MultiplayerActive)&&(MyAPIGateway.Multiplayer.IsServer)) {
+                if ((MyAPIGateway.Multiplayer.MultiplayerActive) && (MyAPIGateway.Multiplayer.IsServer))
+                {
                     if (MyAPIGateway.Session.ElapsedPlayTime.Milliseconds % 2000 == 0)
                     {
                         int nextSeedNumber = r.Next(100000);
                         Int32Converter i = nextSeedNumber;
                         byte[] byteArray = { i.Byte1, i.Byte2, i.Byte3, i.Byte4 };
                         MyAPIGateway.Multiplayer.SendMessageToOthers(2, byteArray);
-                      //  Log.Info("sent message to others");
+                        //  Log.Info("sent message to others");
                         r = new Random(nextSeedNumber);
-                      //  Log.Info("created new random with Seed " + nextSeedNumber);
+                        //  Log.Info("created new random with Seed " + nextSeedNumber);
                     }
                 }
             }
         }
-        public static IMyEntity GetClosestTargetAlongRay(Ray ray, double maxDistance, double deviation, IMyEntity ignoreEntity) { 
+        public static IMyEntity GetClosestTargetAlongRay(Ray ray, double maxDistance, double deviation, IMyEntity ignoreEntity)
+        {
             var set = new HashSet<IMyEntity>();
             set.Add(ignoreEntity);
             return GetClosestTargetAlongRay(ray, maxDistance, deviation, set);
         }
 
-        public static IMyEntity GetClosestTargetAlongRay(Ray ray, double maxDistance, double deviation, HashSet<IMyEntity> ignoreSet) {
+        public static IMyEntity GetClosestTargetAlongRay(Ray ray, double maxDistance, double deviation, HashSet<IMyEntity> ignoreSet)
+        {
             if (Math.Abs(deviation) < double.Epsilon) deviation = 7.5;
             Ray directionRay = ray;
             BoundingSphereD largeSphere = new BoundingSphereD(directionRay.Position, maxDistance);
@@ -686,28 +706,28 @@ namespace GuidedMissile.GuidedMissileScript
 
             foreach (IMyEntity foundEntity in foundEntitySet)
             {
-               // Log.Info("foundentityset.count = " + foundEntitySet.Count);
+                // Log.Info("foundentityset.count = " + foundEntitySet.Count);
                 targetBox = (BoundingBox)foundEntity.GetTopMostParent().WorldAABB;
                 directionRay.Intersects(ref targetBox, out distance);
                 if (distance != null)
                 {
-                  //  Log.Info("distance wasnt zero for: " + foundEntity.GetType().ToString());
-                   // if ((float)distance < lowestDistance) Log.Info("distance < lowest distance for " + foundEntity.EntityId);
-                 //   if (foundEntity.GetTopMostParent().GetType().ToString() == "Sandbox.Game.Entities.MyCubeGrid") Log.Info("target is in a cubegrid  " + foundEntity.EntityId);
-                  //  if ((float)distance > safetyDistance) Log.Info("distance > safety distance for " + foundEntity.EntityId);
+                    //  Log.Info("distance wasnt zero for: " + foundEntity.GetType().ToString());
+                    // if ((float)distance < lowestDistance) Log.Info("distance < lowest distance for " + foundEntity.EntityId);
+                    //   if (foundEntity.GetTopMostParent().GetType().ToString() == "Sandbox.Game.Entities.MyCubeGrid") Log.Info("target is in a cubegrid  " + foundEntity.EntityId);
+                    //  if ((float)distance > safetyDistance) Log.Info("distance > safety distance for " + foundEntity.EntityId);
                     if (((float)distance < lowestDistance) && ((float)distance > safetyDistance) && (foundEntity.GetTopMostParent().GetType().ToString() == "Sandbox.Game.Entities.MyCubeGrid"))
                     {
                         if (!ignoreSet.Contains(foundEntity))
                         {
                             bestTarget = foundEntity;
                             lowestDistance = (float)distance;
-                          //  Log.Info("we found a fitting target: " + foundEntity.DisplayName);
+                            //  Log.Info("we found a fitting target: " + foundEntity.DisplayName);
                         }
-                    }                    
+                    }
                 }
             }
             return bestTarget;
         }
-    }    
+    }
 }
 

@@ -42,7 +42,7 @@ namespace GuidedMissile.GuidedMissileScript
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_SmallMissileLauncher), "FlareLauncher")]
     public class FlareLauncherHook : GuidedMissileLauncherHook
     {
-        private const float DeflectChance = (7f/10f); //rational number plox
+        private const float DeflectChance = (7f / 10f); //rational number plox
 
         protected override double BOUNDING_BOX_OFFSET_FRONT
         {
@@ -68,8 +68,8 @@ namespace GuidedMissile.GuidedMissileScript
 
         public override void OnExplodeMissile(IMyEntity missile)
         {
-              //Log.Info("flare missile exploded!");
-            
+            //Log.Info("flare missile exploded!");
+
 
         }
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
@@ -100,15 +100,18 @@ namespace GuidedMissile.GuidedMissileScript
         public HashSet<IMyEntity> deleteSet;
         protected override void GuideMissiles(HashSet<IMyEntity> missileSet)
         {
-           // Log.Info("called guidemissiles in flarelauncher");
-            try {
+            // Log.Info("called guidemissiles in flarelauncher");
+            try
+            {
                 if (missileSet == null) return;
                 if (missileSet.Count == 0) return;
-                 Log.Info("Set wasnt 0 or empty");
+                Log.Info("Set wasnt 0 or empty");
                 ISet<IMyEntity> incomingMissiles = GuidedMissileSingleton.GetMissilesByTargetGrid(Entity.GetTopMostParent());
                 if (incomingMissiles.Count == 0) return;
-                foreach (IMyEntity guidedMissile in incomingMissiles) {
-                    foreach (IMyEntity flare in missileSet) {
+                foreach (IMyEntity guidedMissile in incomingMissiles)
+                {
+                    foreach (IMyEntity flare in missileSet)
+                    {
                         if (!flareSet.Contains(flare))
                         {
                             Log.Info("got a flare: ");
@@ -125,14 +128,18 @@ namespace GuidedMissile.GuidedMissileScript
                         }
                     }
                 }
-                foreach (IMyEntity flare in flareSet) {
-                    if ((flare == null) || (flare.MarkedForClose)) {
+                foreach (IMyEntity flare in flareSet)
+                {
+                    if ((flare == null) || (flare.MarkedForClose))
+                    {
                         deleteSet.Add(flare);
                     }
                     flareSet.ExceptWith(deleteSet);
                     deleteSet.Clear();
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Log.Info("flares failed to work! caught exception: " + e);
             }
         }

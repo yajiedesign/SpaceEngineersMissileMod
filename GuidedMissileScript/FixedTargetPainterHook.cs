@@ -44,7 +44,7 @@ namespace GuidedMissile.GuidedMissileScript
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
             this._objectBuilder = objectBuilder;
-            
+
             Entity.NeedsUpdate |= MyEntityUpdateEnum.EACH_10TH_FRAME;
         }
         protected IMyEntity GetTarget(IMyEntity missile)
@@ -60,7 +60,7 @@ namespace GuidedMissile.GuidedMissileScript
         public override MyObjectBuilder_EntityBase GetObjectBuilder(bool copy = false)
         {
             return _objectBuilder;
-        } 
+        }
 
         public bool AssignTarget(IMyEntity target)
         {
@@ -74,7 +74,7 @@ namespace GuidedMissile.GuidedMissileScript
         protected HashSet<IMyEntity> GetMissilesInBoundingBox()
         {
             BoundingBoxD box = (BoundingBoxD)Entity.WorldAABB.GetInflated(2.0);
-          //  box = box.Translate(Entity.LocalMatrix.Forward * 0.2f);
+            //  box = box.Translate(Entity.LocalMatrix.Forward * 0.2f);
             //Log.Info("Bounding box in GetMissilesInBoundingBox for "+ GetType()+ " is " + box.Size);
             List<IMyEntity> entitiesFound = MyAPIGateway.Entities.GetEntitiesInAABB(ref box);
             HashSet<IMyEntity> entitySet = new HashSet<IMyEntity>();
@@ -85,7 +85,7 @@ namespace GuidedMissile.GuidedMissileScript
                 {
                     //   Log.Info("detected something not yet added with speed: " + (ent.Physics.LinearVelocity - Entity.GetTopMostParent().Physics.LinearVelocity).Length());
                     //   Log.Info("topmostparent velocity was " + Entity.GetTopMostParent().Physics.LinearVelocity);
-                    
+
                     if ((ent.Physics.LinearVelocity - Entity.GetTopMostParent().Physics.LinearVelocity).Length() > 110)
                     {
                         Log.Info("found something");
@@ -124,17 +124,17 @@ namespace GuidedMissile.GuidedMissileScript
                 }
             }
             var gun = Entity as IMyUserControllableGun;
-            if ((underControl)&&(gun.IsShooting))
+            if ((underControl) && (gun.IsShooting))
             {
                 foreach (IMyEntity missile in GetMissilesInBoundingBox())
                 {
                     Ray ray = new Ray(missile.GetPosition(), Vector3.Normalize(missile.WorldMatrix.Forward));
                     IMyEntity target = GuidedMissileCore.GetClosestTargetAlongRay(ray, MaxDistance, 7, Entity.GetTopMostParent());
-                   // IMyEntity target = GuidedMissileTargetGridHook.GetRandomBlockInGrid(targetGrid);
+                    // IMyEntity target = GuidedMissileTargetGridHook.GetRandomBlockInGrid(targetGrid);
 
                     AssignTarget(target);
                     missile.Close();
-                    if ((currentPlayer == MyAPIGateway.Session.Player)&&(target!=null)) MyAPIGateway.Utilities.ShowNotification(target.GetTopMostParent().DisplayName + " was set as missile target!", 2000, MyFontEnum.Red);
+                    if ((currentPlayer == MyAPIGateway.Session.Player) && (target != null)) MyAPIGateway.Utilities.ShowNotification(target.GetTopMostParent().DisplayName + " was set as missile target!", 2000, MyFontEnum.Red);
                     break;
                 }
             }

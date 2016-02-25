@@ -103,7 +103,7 @@ namespace GuidedMissile.GuidedMissileScript
         }
         public override void OnExplodeMissile(IMyEntity missile)
         {
-        //    Log.Info("A catapult torpedo exploded!");
+            //    Log.Info("A catapult torpedo exploded!");
         }
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
@@ -117,7 +117,7 @@ namespace GuidedMissile.GuidedMissileScript
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_SmallMissileLauncher), "SidewinderSmallMissileLauncher")]
     public class SidewinderLauncherHook : GuidedMissileLauncherHook
     {
-        
+
         protected override double BOUNDING_BOX_OFFSET_FRONT
         {
             get { return 0; }
@@ -139,11 +139,11 @@ namespace GuidedMissile.GuidedMissileScript
         {
             get { return false; }
         }
-        
+
         public override void OnExplodeMissile(IMyEntity missile)
         {
-          //  Log.Info("sidewinder missile exploded!");
-          
+            //  Log.Info("sidewinder missile exploded!");
+
         }
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
@@ -151,29 +151,32 @@ namespace GuidedMissile.GuidedMissileScript
 
             base.Init(objectBuilder);
 
-            
+
         }
 
-        protected override IMyEntity GetTarget(IMyEntity missile) {
+        protected override IMyEntity GetTarget(IMyEntity missile)
+        {
 
             //IMyEntity targetGrid = GuidedMissileTargetGridHook.GetMissileTargetForGrid(Entity.GetTopMostParent());
 
 
-            Ray ray = new Ray(missile.GetPosition(),Vector3.Normalize(missile.WorldMatrix.Forward));
-            IMyEntity targetGrid = GuidedMissileCore.GetClosestTargetAlongRay(ray, 3000,7, Entity.GetTopMostParent());
+            Ray ray = new Ray(missile.GetPosition(), Vector3.Normalize(missile.WorldMatrix.Forward));
+            IMyEntity targetGrid = GuidedMissileCore.GetClosestTargetAlongRay(ray, 3000, 7, Entity.GetTopMostParent());
             IMyEntity target = GuidedMissileTargetGridHook.GetRandomBlockInGrid(targetGrid);
-            if (target == null) {
-              //  Log.Info("target was null...");
-             //   if (targetGrid == null) Log.Info("targetgrid was null as well!");
+            if (target == null)
+            {
+                //  Log.Info("target was null...");
+                //   if (targetGrid == null) Log.Info("targetgrid was null as well!");
                 target = targetGrid;
                 Log.Info("target was null, now set to grid");
-              //  IMyEntity grid = target;
-                
-            } 
-            
-          //  Log.Info("got a target: " + target.ToString());
+                //  IMyEntity grid = target;
 
-            if (target != null) {
+            }
+
+            //  Log.Info("got a target: " + target.ToString());
+
+            if (target != null)
+            {
 
                 IMyPlayerCollection allPlayers = MyAPIGateway.Players;
 
@@ -211,8 +214,8 @@ namespace GuidedMissile.GuidedMissileScript
                     }
                 }
 
-                
-            } 
+
+            }
             return target;
         }
     }
