@@ -32,9 +32,8 @@ using VRage.ModAPI;
 using VRage.ObjectBuilders;
 using VRage.Utils;
 using VRageMath;
-using ZJ.Utils;
 
-namespace ZJ.GuidedMissileCore
+namespace GuidedMissile.GuidedMissileScript
 {
     
 
@@ -51,16 +50,16 @@ namespace ZJ.GuidedMissileCore
 
         public abstract void OnExplodeMissile(IMyEntity missile);
 
-        public const float MAX_SPEED_FOR_GUIDANCE = 95f; //WORKAROUND FOR DUMBFIRE MISSILES! ITS THE THRESHOLD!
+        public const float MaxSpeedForGuidance = 95f; //WORKAROUND FOR DUMBFIRE MISSILES! ITS THE THRESHOLD!
 
         #endregion
         
 
-        protected MyObjectBuilder_EntityBase objectBuilder;
+        protected MyObjectBuilder_EntityBase ObjectBuilder;
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
             _lastIsShooting = false;
-            this.objectBuilder = objectBuilder;
+            this.ObjectBuilder = objectBuilder;
             Entity.NeedsUpdate |= MyEntityUpdateEnum.BEFORE_NEXT_FRAME | MyEntityUpdateEnum.EACH_FRAME | MyEntityUpdateEnum.EACH_10TH_FRAME;
            // BoundingBoxD box = (BoundingBoxD)Entity.WorldAABB.GetInflated(BB_INFLATE_AMOUNT);
        //     Log.Info("Bounding box for "+GetType()+": " + box.Size);
@@ -68,12 +67,12 @@ namespace ZJ.GuidedMissileCore
 
         public override void Close()
         {
-            objectBuilder = null;
+            ObjectBuilder = null;
         }
 
         public override MyObjectBuilder_EntityBase GetObjectBuilder(bool copy = false)
         {
-            return copy ? (MyObjectBuilder_EntityBase)objectBuilder.Clone() : objectBuilder;
+            return copy ? (MyObjectBuilder_EntityBase)ObjectBuilder.Clone() : ObjectBuilder;
         }
         protected virtual HashSet<IMyEntity> GetMissilesInBoundingBox() {
             BoundingBoxD box = (BoundingBoxD)Entity.WorldAABB.GetInflated(BB_INFLATE_AMOUNT);
@@ -89,7 +88,7 @@ namespace ZJ.GuidedMissileCore
                 {
                     Log.Info("detected something not yet added with speed: " + (ent.Physics.LinearVelocity - Entity.GetTopMostParent().Physics.LinearVelocity).Length());
                     Log.Info("topmostparent velocity was " + Entity.GetTopMostParent().Physics.LinearVelocity);
-                    if ((ent.Physics.LinearVelocity - Entity.GetTopMostParent().Physics.LinearVelocity).Length() < MAX_SPEED_FOR_GUIDANCE)
+                    if ((ent.Physics.LinearVelocity - Entity.GetTopMostParent().Physics.LinearVelocity).Length() < MaxSpeedForGuidance)
                     {
                         entitySet.Add(ent);
                         

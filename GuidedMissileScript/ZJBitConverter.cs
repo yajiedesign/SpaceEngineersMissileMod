@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-namespace ZJ.GuidedMissileCore
+namespace GuidedMissile.GuidedMissileScript
 {
 
     [StructLayout(LayoutKind.Explicit)]

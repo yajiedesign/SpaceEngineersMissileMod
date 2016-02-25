@@ -31,19 +31,18 @@ using VRage.ModAPI;
 using VRage.ObjectBuilders;
 using VRage.Utils;
 using VRageMath;
-using ZJ.Utils;
 using Sandbox.Engine.Utils;
 using Sandbox.Game.GameSystems;
 using VRage.Game.Components;
 
-namespace ZJ.GuidedMissileCore
+namespace GuidedMissile.GuidedMissileScript
 {
     /** WARNING: GUIDED MISSILES MUSNTN BE FASTER THAN A CERTAIN AMOUNT SPECIFIED IN GUIDEDMISSILELAUNCHERHOOK.cs **/
 
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_SmallMissileLauncher), "FlareLauncher")]
     public class FlareLauncherHook : GuidedMissileLauncherHook
     {
-        private const float DEFLECT_CHANCE = (7f/10f); //rational number plox
+        private const float DeflectChance = (7f/10f); //rational number plox
 
         protected override double BOUNDING_BOX_OFFSET_FRONT
         {
@@ -115,7 +114,7 @@ namespace ZJ.GuidedMissileCore
                             Log.Info("got a flare: ");
                             flareSet.Add(flare);
                             int randomNumber = GuidedMissileCore.GetSyncedRandom().Next(1, 10);
-                            if (randomNumber > (int)Math.Round(DEFLECT_CHANCE * 10))
+                            if (randomNumber > (int)Math.Round(DeflectChance * 10))
                             {
                                 GuidedMissileSingleton.SetTargetForMissile(guidedMissile, flare);
                                 Log.Info("won dice roll! setting flare target for missile! " + randomNumber);

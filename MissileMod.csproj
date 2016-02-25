@@ -7,7 +7,7 @@
     <ProjectGuid>{095DAF6A-1977-44C1-A756-F3CD924EF8D5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MissileMod</RootNamespace>
+    <RootNamespace>GuidedMissile</RootNamespace>
     <AssemblyName>MissileMod</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

@@ -8,7 +8,7 @@ using Sandbox.Common;
 using VRage.Game.Components;
 using VRage.Utils;
 
-namespace ZJ.Utils
+namespace GuidedMissile.GuidedMissileScript
 {
     class Log : MySessionComponentBase
     {

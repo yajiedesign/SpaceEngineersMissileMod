@@ -32,9 +32,8 @@ using VRage.ModAPI;
 using VRage.ObjectBuilders;
 using VRage.Utils;
 using VRageMath;
-using ZJ.Utils;
 
-namespace ZJ.GuidedMissileCore
+namespace GuidedMissile.GuidedMissileScript
 {
 
     public class GuidedMissileSingleton
@@ -217,7 +216,7 @@ namespace ZJ.GuidedMissileCore
                    // Log.Info("angle = " + MathHelper.ToDegrees(angle));
                     float turnPercent = 0f;
 
-                    if (angle == 0)
+                    if (Math.Abs(angle) < double.Epsilon)
                     {
                         turnPercent = 0f;
                     }

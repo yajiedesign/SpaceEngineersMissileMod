@@ -32,9 +32,8 @@ using VRage.ModAPI;
 using VRage.ObjectBuilders;
 using VRage.Utils;
 using VRageMath;
-using ZJ.Utils;
 
-namespace ZJ.GuidedMissileCore
+namespace GuidedMissile.GuidedMissileScript
 {
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_LargeMissileTurret), "GuidedMissileTargeter")]
     public class GuidedMissileControlStationHook : MyGameLogicComponent

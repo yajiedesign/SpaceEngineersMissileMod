@@ -32,19 +32,18 @@ using VRage.ModAPI;
 using VRage.ObjectBuilders;
 using VRage.Utils;
 using VRageMath;
-using ZJ.Utils;
 
-namespace ZJ.GuidedMissileCore
+namespace GuidedMissile.GuidedMissileScript
 {
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_SmallMissileLauncher), "FixedTargetPainter")]
     public class FixedTargetPainterHook : MyGameLogicComponent
     {
-        private MyObjectBuilder_EntityBase objectBuilder;
+        private MyObjectBuilder_EntityBase _objectBuilder;
 
-        private const float MAX_DISTANCE = 3000;
+        private const float MaxDistance = 3000;
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
-            this.objectBuilder = objectBuilder;
+            this._objectBuilder = objectBuilder;
             
             Entity.NeedsUpdate |= MyEntityUpdateEnum.EACH_10TH_FRAME;
         }
@@ -56,11 +55,11 @@ namespace ZJ.GuidedMissileCore
         public override void Close()
         {
 
-            objectBuilder = null;
+            _objectBuilder = null;
         }
         public override MyObjectBuilder_EntityBase GetObjectBuilder(bool copy = false)
         {
-            return objectBuilder;
+            return _objectBuilder;
         } 
 
         public bool AssignTarget(IMyEntity target)
@@ -130,7 +129,7 @@ namespace ZJ.GuidedMissileCore
                 foreach (IMyEntity missile in GetMissilesInBoundingBox())
                 {
                     Ray ray = new Ray(missile.GetPosition(), Vector3.Normalize(missile.WorldMatrix.Forward));
-                    IMyEntity target = GuidedMissileCore.GetClosestTargetAlongRay(ray, MAX_DISTANCE, 7, Entity.GetTopMostParent());
+                    IMyEntity target = GuidedMissileCore.GetClosestTargetAlongRay(ray, MaxDistance, 7, Entity.GetTopMostParent());
                    // IMyEntity target = GuidedMissileTargetGridHook.GetRandomBlockInGrid(targetGrid);
 
                     AssignTarget(target);

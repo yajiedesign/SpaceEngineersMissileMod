@@ -31,12 +31,11 @@ using VRage.ModAPI;
 using VRage.ObjectBuilders;
 using VRage.Utils;
 using VRageMath;
-using ZJ.Utils;
 using Sandbox.Engine.Utils;
 using Sandbox.Game.GameSystems;
 using VRage.Game.Components;
 
-namespace ZJ.GuidedMissileCore
+namespace GuidedMissile.GuidedMissileScript
 {
     /** WARNING: GUIDED MISSILES MUSNTN BE FASTER THAN A CERTAIN AMOUNT SPECIFIED IN GUIDEDMISSILELAUNCHERHOOK.cs **/
 
