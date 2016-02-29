@@ -85,7 +85,7 @@ namespace GuidedMissile.GuidedMissileScript
             foreach (IMyEntity ent in entitiesFound)
             {
                 // Log.Info("in guidedmissilehook: found Entity : " + ent);
-                if ((ent.GetType().ToString() == "Sandbox.Game.Weapons.MyMissile") && (!GuidedMissileSingleton.IsGuidedMissile(ent)))
+                if ((ent.GetType().ToString() == GuidedMissileSingleton.SandboxGameWeaponsMyMissile) && (!GuidedMissileSingleton.IsGuidedMissile(ent)))
                 {
                     Log.Info("detected something not yet added with speed: " + (ent.Physics.LinearVelocity - Entity.GetTopMostParent().Physics.LinearVelocity).Length());
                     Log.Info("topmostparent velocity was " + Entity.GetTopMostParent().Physics.LinearVelocity);

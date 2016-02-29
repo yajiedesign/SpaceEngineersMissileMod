@@ -38,6 +38,7 @@ namespace GuidedMissile.GuidedMissileScript
 
     public class GuidedMissileSingleton
     {
+        public static  readonly string  SandboxGameWeaponsMyMissile = "Sandbox.Game.Weapons.MyMissile";
         private class MissileDataContainer
         {
             public IMyEntity Missile { get; private set; }
@@ -434,12 +435,10 @@ namespace GuidedMissile.GuidedMissileScript
         }
         public bool AddMissileToDict(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer, float turningSpeed, Action<IMyEntity> onExplode, bool hasPhysicsSteering)
         {
-            if (!(missile.GetType().ToString() == "Sandbox.Game.Weapons.MyMissile")) return false;
-
-            if ((missile == null) || (target == null)) return false;
-
-            if (_guidedMissileDict.ContainsKey(missile.EntityId)) return false;
-            if (IgnoreSet.Contains(missile)) return false;
+            if ((missile == null) || (target == null)) { return false;}
+            if (missile.GetType().ToString() != GuidedMissileSingleton.SandboxGameWeaponsMyMissile) { return false;}
+            if (_guidedMissileDict.ContainsKey(missile.EntityId)) { return false;}
+            if (IgnoreSet.Contains(missile)) { return false;}
             _guidedMissileDict.Add(missile.EntityId, new MissileDataContainer(missile, target, safetyTimer, deathTimer, turningSpeed, onExplode, hasPhysicsSteering));
             //   Log.Info("Added missile " + missile.EntityId + " with Target " + target.EntityId + " and safetyTimer " + safetyTimer + " Frames to the dictionary!");
             DisplayWarningMessage(target);

@@ -166,7 +166,7 @@ namespace GuidedMissile.GuidedMissileScript
 
                         //   Log.Info("found an entity around me " + ent.GetType().ToString());
                         // if (ent is Sandbox.Game.Weapons.MyMissile)
-                        if (ent.GetType().ToString() == "Sandbox.Game.Weapons.MyMissile") //CHECK FOR OWNER OR SOMETHING ;_;
+                        if (ent.GetType().ToString() == GuidedMissileSingleton.SandboxGameWeaponsMyMissile) //CHECK FOR OWNER OR SOMETHING ;_;
                         {
                             bool isActualMissile = false;
                             if ((Entity.Physics != null) && ((ent.Physics.LinearVelocity - Entity.Physics.LinearVelocity).Length() > 450f))
