@@ -94,10 +94,10 @@ namespace GuidedMissile.GuidedMissileScript
             GuidedMissileTargetGridHook targetGridHook = null;
             foreach (MyComponentBase comp in componentContainer)
             {
-                if (comp is GuidedMissileTargetGridHook)
+                var hook = comp as GuidedMissileTargetGridHook;
+                if (hook != null)
                 {
-                    targetGridHook = (GuidedMissileTargetGridHook)comp;
-
+                    targetGridHook = hook;
                 }
                 if (comp is MyCompositeGameLogicComponent)
                 {
@@ -219,7 +219,7 @@ namespace GuidedMissile.GuidedMissileScript
         {
             if (GetMissileTarget() != null)
             {
-         
+
                 if (Entity == null) return;
                 // if(target.OwnerId == Entity.OwnerId) return false; //faction check?
                 if (Entity.Hierarchy == null) return;
@@ -292,7 +292,8 @@ namespace GuidedMissile.GuidedMissileScript
                                     }
                                 }
                             }
-                            else {
+                            else
+                            {
                                 if (turret.Range > (Entity.GetPosition() - GetMissileTarget().GetPosition()).Length())
                                 {
                                     var randomTarget = GetRandomBlockInGrid(GetMissileTarget().GetTopMostParent());

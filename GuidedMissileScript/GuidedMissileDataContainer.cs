@@ -5,7 +5,7 @@ using VRageMath;
 
 namespace GuidedMissile.GuidedMissileScript
 {
-    public class MissileDataContainer
+    public class GuidedMissileDataContainer
     {
         public IMyEntity Missile { get; private set; }
         public IMyEntity Target { get; set; }
@@ -20,14 +20,14 @@ namespace GuidedMissile.GuidedMissileScript
         private bool _finishedOvershooting = false;
         private readonly Action<IMyEntity> _onExplode = delegate (IMyEntity entity) { Log.Info("An empty onexplode was called"); };
 
-        public MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer, float turningSpeed, Action<IMyEntity> onExplode, bool hasPhysicsSteering)
+        public GuidedMissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer, float turningSpeed, Action<IMyEntity> onExplode, bool hasPhysicsSteering)
             : this(missile, target, safetyTimer, deathTimer, turningSpeed)
         {
             if (onExplode != null) _onExplode = onExplode;
             _hasPhysicsSteering = hasPhysicsSteering;
         }
 
-        private MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer, float turningSpeed)
+        private GuidedMissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer, float turningSpeed)
         {
             Missile = missile;
             Target = target;
@@ -40,7 +40,7 @@ namespace GuidedMissile.GuidedMissileScript
         public void ClearOvershootDistance() { _overshootDistance = 0f; }
         public void StartOverShooting() { _isOvershooting = true; }
         public void StopOverShooting() { _isOvershooting = false; }
-        public MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer)
+        public GuidedMissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer)
         {
             Missile = missile;
             Target = target;
@@ -48,13 +48,13 @@ namespace GuidedMissile.GuidedMissileScript
             _deathTimer = deathTimer;
         }
 
-        public MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer)
+        public GuidedMissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer)
         {
             Missile = missile;
             Target = target;
             TrackedFrames = -safetyTimer;
         }
-        public MissileDataContainer(IMyEntity missile, IMyEntity target)
+        public GuidedMissileDataContainer(IMyEntity missile, IMyEntity target)
         {
             Missile = missile;
             Target = target;

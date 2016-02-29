@@ -15,7 +15,7 @@ namespace GuidedMissile.GuidedMissileScript
 
         private static GuidedMissileSingleton _instance = null;
 
-        private readonly Dictionary<long, MissileDataContainer> _guidedMissileDict; //A dictionary. the missiles are the keys, their targets the values.
+        private readonly Dictionary<long, GuidedMissileDataContainer> _guidedMissileDict; //A dictionary. the missiles are the keys, their targets the values.
         private readonly HashSet<long> _deleteSet;
         public HashSet<IMyEntity> IgnoreSet { get; private set; }
 
@@ -26,7 +26,7 @@ namespace GuidedMissile.GuidedMissileScript
 
         private GuidedMissileSingleton()
         {
-            _guidedMissileDict = new Dictionary<long, MissileDataContainer>();
+            _guidedMissileDict = new Dictionary<long, GuidedMissileDataContainer>();
             _deleteSet = new HashSet<long>();
             _turretSet = new HashSet<IMyEntity>();
             _deleteTurretSet = new HashSet<IMyEntity>();
@@ -114,11 +114,11 @@ namespace GuidedMissile.GuidedMissileScript
                 return null;
             }
             //  Log.Info("grid wasnt null");
-            ICollection<MissileDataContainer> mdContainers = GetInstance()._guidedMissileDict.Values;
+            ICollection<GuidedMissileDataContainer> mdContainers = GetInstance()._guidedMissileDict.Values;
 
             HashSet<IMyEntity> missileSet = new HashSet<IMyEntity>();
 
-            foreach (MissileDataContainer container in mdContainers)
+            foreach (GuidedMissileDataContainer container in mdContainers)
             {
 
                 var missile = container.Missile;
@@ -142,7 +142,7 @@ namespace GuidedMissile.GuidedMissileScript
             if (!_guidedMissileDict.ContainsKey(missile.EntityId)) return false;
             if (missile.MarkedForClose) return false;
             //  Log.Info("missiledict contains missile and isnt marked for close");
-            MissileDataContainer mdC;
+            GuidedMissileDataContainer mdC;
             _guidedMissileDict.TryGetValue(missile.EntityId, out mdC);
             if (mdC != null) mdC.Target = target;
             //  Log.Info("SetTargetForMissile: return true");
@@ -154,7 +154,7 @@ namespace GuidedMissile.GuidedMissileScript
             if (missile.GetType().ToString() != SandboxGameWeaponsMyMissile) { return false;}
             if (_guidedMissileDict.ContainsKey(missile.EntityId)) { return false;}
             if (IgnoreSet.Contains(missile)) { return false;}
-            _guidedMissileDict.Add(missile.EntityId, new MissileDataContainer(missile, target, safetyTimer, deathTimer, turningSpeed, onExplode, hasPhysicsSteering));
+            _guidedMissileDict.Add(missile.EntityId, new GuidedMissileDataContainer(missile, target, safetyTimer, deathTimer, turningSpeed, onExplode, hasPhysicsSteering));
             //   Log.Info("Added missile " + missile.EntityId + " with Target " + target.EntityId + " and safetyTimer " + safetyTimer + " Frames to the dictionary!");
             DisplayWarningMessage(target);
             return true;
@@ -254,20 +254,20 @@ namespace GuidedMissile.GuidedMissileScript
             _warningGridSet.ExceptWith(delFromWarningSet);
             delFromWarningSet.Clear();
 
-            Dictionary<long, MissileDataContainer>.KeyCollection keyCollection = _guidedMissileDict.Keys;
+            Dictionary<long, GuidedMissileDataContainer>.KeyCollection keyCollection = _guidedMissileDict.Keys;
             foreach (long key in keyCollection)
             {
-                MissileDataContainer missileData;
-                if (_guidedMissileDict.TryGetValue(key, out missileData))
+                GuidedMissileDataContainer guidedMissileData;
+                if (_guidedMissileDict.TryGetValue(key, out guidedMissileData))
                 {
-                    if (missileData.IsExpired())
+                    if (guidedMissileData.IsExpired())
                     {
                         _deleteSet.Add(key);
-                        missileData.SetEmpty();
+                        guidedMissileData.SetEmpty();
                     }
                     else
                     {
-                        missileData.Update();
+                        guidedMissileData.Update();
                     }
                 }
             }

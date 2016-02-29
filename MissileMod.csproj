@@ -76,7 +76,7 @@
     <Compile Include="GuidedMissileScript\GuidedMissileSingleton.cs" />
     <Compile Include="GuidedMissileScript\GuidedMissileTargetGridHook.cs" />
     <Compile Include="GuidedMissileScript\Log.cs" />
-    <Compile Include="GuidedMissileScript\MissileDataContainer.cs" />
+    <Compile Include="GuidedMissileScript\GuidedMissileDataContainer.cs" />
     <Compile Include="GuidedMissileScript\MissileLauncherHookImpementations.cs" />
     <Compile Include="GuidedMissileScript\ZJBitConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
