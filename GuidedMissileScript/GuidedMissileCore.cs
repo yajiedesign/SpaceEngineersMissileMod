@@ -40,24 +40,24 @@ namespace GuidedMissile.GuidedMissileScript
     {
         private class MissileDataContainer
         {
-            public IMyEntity Missile { get; set; }
+            public IMyEntity Missile { get; private set; }
             public IMyEntity Target { get; set; }
-            public long TrackedFrames { get; set; }
-            public long DeathTimer = 10000;
-            public float TurningSpeed = 0.1f;
-            public bool HasPhysicsSteering = false;
+            private long TrackedFrames { get; set; }
+            private readonly long _deathTimer = 10000;
+            private readonly float _turningSpeed = 0.1f;
+            private readonly bool _hasPhysicsSteering = false;
 
-            public bool isOvershooting = false;
-            public float overshootDistance = 0;
+            private bool _isOvershooting = false;
+            private float _overshootDistance = 0;
 
-            public bool finishedOvershooting = false;
-            public Action<IMyEntity> OnExplode = delegate (IMyEntity entity) { Log.Info("An empty onexplode was called"); };
+            private bool _finishedOvershooting = false;
+            private readonly Action<IMyEntity> _onExplode = delegate (IMyEntity entity) { Log.Info("An empty onexplode was called"); };
 
             public MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer, float turningSpeed, Action<IMyEntity> onExplode, bool hasPhysicsSteering)
                 : this(missile, target, safetyTimer, deathTimer, turningSpeed)
             {
-                if (onExplode != null) OnExplode = onExplode;
-                HasPhysicsSteering = hasPhysicsSteering;
+                if (onExplode != null) _onExplode = onExplode;
+                _hasPhysicsSteering = hasPhysicsSteering;
             }
 
             private MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer, float turningSpeed)
@@ -65,20 +65,20 @@ namespace GuidedMissile.GuidedMissileScript
                 Missile = missile;
                 Target = target;
                 TrackedFrames = -safetyTimer;
-                DeathTimer = deathTimer;
-                TurningSpeed = turningSpeed;
+                _deathTimer = deathTimer;
+                _turningSpeed = turningSpeed;
 
             }
-            public void SetOvershootDistance(float distance) { overshootDistance = distance; }
-            public void ClearOvershootDistance() { overshootDistance = 0f; }
-            public void StartOverShooting() { isOvershooting = true; }
-            public void StopOverShooting() { isOvershooting = false; }
+            public void SetOvershootDistance(float distance) { _overshootDistance = distance; }
+            public void ClearOvershootDistance() { _overshootDistance = 0f; }
+            public void StartOverShooting() { _isOvershooting = true; }
+            public void StopOverShooting() { _isOvershooting = false; }
             public MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer)
             {
                 Missile = missile;
                 Target = target;
                 TrackedFrames = -safetyTimer;
-                DeathTimer = deathTimer;
+                _deathTimer = deathTimer;
             }
 
             public MissileDataContainer(IMyEntity missile, IMyEntity target, long safetyTimer)
@@ -105,10 +105,10 @@ namespace GuidedMissile.GuidedMissileScript
                 if (Target == null) return true;
                 if (Missile.MarkedForClose)
                 {
-                    OnExplode(Missile);
+                    _onExplode(Missile);
                     return true;
                 }
-                if (TrackedFrames > DeathTimer)
+                if (TrackedFrames > _deathTimer)
                 {
                     Missile.Close();
                     return true;
@@ -120,9 +120,9 @@ namespace GuidedMissile.GuidedMissileScript
                     IMyEntity newTarget = GuidedMissileTargetGridHook.GetRandomBlockInGrid(Target);
                     if (newTarget == null) return true;
                     Target = newTarget;
-                    isOvershooting = false;
-                    overshootDistance = 0f;
-                    finishedOvershooting = false;
+                    _isOvershooting = false;
+                    _overshootDistance = 0f;
+                    _finishedOvershooting = false;
                     return false;
                     //  return true;
 
@@ -146,7 +146,7 @@ namespace GuidedMissile.GuidedMissileScript
 
                         Vector3 boundingBoxCenter = (Target.WorldAABB.Max + Target.WorldAABB.Min) * 0.5;
                         if (boundingBoxCenter == Vector3.Zero) boundingBoxCenter = Target.GetPosition();
-                        if (HasPhysicsSteering)
+                        if (_hasPhysicsSteering)
                         {
                             Ray positiveVelocityRay = new Ray(Missile.GetPosition(), Missile.Physics.LinearVelocity);
                             Ray negativeVelocityRay = new Ray(Missile.GetPosition(), -1f * Missile.Physics.LinearVelocity);
@@ -167,30 +167,30 @@ namespace GuidedMissile.GuidedMissileScript
                                 if (intersectionDist != null)
                                 {
 
-                                    if ((isOvershooting == false) && (finishedOvershooting == false))
+                                    if ((_isOvershooting == false) && (_finishedOvershooting == false))
                                     {
-                                        overshootDistance = Missile.Physics.LinearVelocity.Length() * (360 / TurningSpeed) / 10000 + 0;
-                                        isOvershooting = true;
+                                        _overshootDistance = Missile.Physics.LinearVelocity.Length() * (360 / _turningSpeed) / 10000 + 0;
+                                        _isOvershooting = true;
                                     }
                                     //  targetPoint = negativeVelocityRay.Position + (float)intersectionDist * negativeVelocityRay.Direction;
 
-                                    if (isOvershooting && !finishedOvershooting)
+                                    if (_isOvershooting && !_finishedOvershooting)
                                     {
-                                        if (intersectionDist > overshootDistance)
+                                        if (intersectionDist > _overshootDistance)
                                         {
                                             targetPoint = boundingBoxCenter;
-                                            finishedOvershooting = true;
+                                            _finishedOvershooting = true;
                                             // Log.Info("we finished overshooting, returning to target.");
                                         }
                                         else
                                         {
                                             targetPoint = Missile.GetPosition() + Missile.WorldMatrix.Forward;
                                             //   Log.Info("we overshot, we keep heading forward.");
-                                            //   Log.Info("         current Distance: " + intersectionDist + " and overshootCorr " + overshootDistance);
+                                            //   Log.Info("         current Distance: " + intersectionDist + " and overshootCorr " + _overshootDistance);
 
                                         }
                                     }
-                                    else if (isOvershooting && finishedOvershooting)
+                                    else if (_isOvershooting && _finishedOvershooting)
                                     {
                                         targetPoint = boundingBoxCenter;
                                     }
@@ -218,7 +218,7 @@ namespace GuidedMissile.GuidedMissileScript
 
                     Vector3 targetDirection = Vector3.Normalize(targetPoint - Missile.GetPosition());
 
-                    float maxRadVelocity = MathHelper.ToRadians(TurningSpeed);
+                    float maxRadVelocity = MathHelper.ToRadians(_turningSpeed);
                     float angle = MyUtils.GetAngleBetweenVectorsAndNormalise(Missile.WorldMatrix.Forward, targetDirection);
                     // Log.Info("angle = " + MathHelper.ToDegrees(angle));
                     float turnPercent = 0f;
@@ -243,7 +243,7 @@ namespace GuidedMissile.GuidedMissileScript
 
                     Missile.SetWorldMatrix(slerpMatrix);
 
-                    if (HasPhysicsSteering)
+                    if (_hasPhysicsSteering)
                     {
 
                         var linVel = Missile.Physics.LinearVelocity;
@@ -275,36 +275,36 @@ namespace GuidedMissile.GuidedMissileScript
         }
 
 
-        private static GuidedMissileSingleton INSTANCE = null;
+        private static GuidedMissileSingleton _instance = null;
 
-        private Dictionary<long, MissileDataContainer> guidedMissileDict; //A dictionary. the missiles are the keys, their targets the values.
-        private HashSet<long> deleteSet;
+        private readonly Dictionary<long, MissileDataContainer> _guidedMissileDict; //A dictionary. the missiles are the keys, their targets the values.
+        private readonly HashSet<long> _deleteSet;
         public HashSet<IMyEntity> IgnoreSet { get; private set; }
 
-        private HashSet<IMyEntity> turretSet;
-        private HashSet<IMyEntity> deleteTurretSet;
+        private readonly HashSet<IMyEntity> _turretSet;
+        private readonly HashSet<IMyEntity> _deleteTurretSet;
 
-        private HashSet<WarningMessageContainer> warningGridSet;
+        private readonly HashSet<WarningMessageContainer> _warningGridSet;
 
         private GuidedMissileSingleton()
         {
-            guidedMissileDict = new Dictionary<long, MissileDataContainer>();
-            deleteSet = new HashSet<long>();
-            turretSet = new HashSet<IMyEntity>();
-            deleteTurretSet = new HashSet<IMyEntity>();
+            _guidedMissileDict = new Dictionary<long, MissileDataContainer>();
+            _deleteSet = new HashSet<long>();
+            _turretSet = new HashSet<IMyEntity>();
+            _deleteTurretSet = new HashSet<IMyEntity>();
             IgnoreSet = new HashSet<IMyEntity>();
-            warningGridSet = new HashSet<WarningMessageContainer>();
+            _warningGridSet = new HashSet<WarningMessageContainer>();
 
             //  Log.Info("GuidedMissileSingleton was created.");
         }
 
         public static GuidedMissileSingleton GetInstance()
         {
-            if (INSTANCE == null)
+            if (_instance == null)
             {
-                INSTANCE = new GuidedMissileSingleton();
+                _instance = new GuidedMissileSingleton();
             }
-            return INSTANCE;
+            return _instance;
         }
 
         public static void Update()
@@ -315,7 +315,7 @@ namespace GuidedMissile.GuidedMissileScript
         private class WarningMessageContainer
         {
             public long Ticks = 0;
-            public IMyEntity Grid;
+            public readonly IMyEntity Grid;
 
             public WarningMessageContainer(IMyEntity grid)
             {
@@ -333,7 +333,7 @@ namespace GuidedMissile.GuidedMissileScript
 
             IMyEntity grid = target.GetTopMostParent();
             bool alreadyContained = false;
-            foreach (WarningMessageContainer container in warningGridSet)
+            foreach (WarningMessageContainer container in _warningGridSet)
             {
                 if (container.Grid == grid) alreadyContained = true;
             }
@@ -372,7 +372,7 @@ namespace GuidedMissile.GuidedMissileScript
                                 {
                                     MyAPIGateway.Utilities.ShowNotification("WARNING! MISSILE LOCKON DETECTED!", 5000, MyFontEnum.Red);
 
-                                    warningGridSet.Add(new WarningMessageContainer(grid));
+                                    _warningGridSet.Add(new WarningMessageContainer(grid));
                                 }
                             }
                         }
@@ -394,7 +394,7 @@ namespace GuidedMissile.GuidedMissileScript
             {
 
                 //  Log.Info("grid wasnt null");
-                ICollection<MissileDataContainer> mdContainers = GetInstance().guidedMissileDict.Values;
+                ICollection<MissileDataContainer> mdContainers = GetInstance()._guidedMissileDict.Values;
 
                 HashSet<IMyEntity> missileSet = new HashSet<IMyEntity>();
 
@@ -423,11 +423,11 @@ namespace GuidedMissile.GuidedMissileScript
             if (target == null) return false;
             if (target.MarkedForClose) return false;
             //  Log.Info("neither target nor missile are null");
-            if (!guidedMissileDict.ContainsKey(missile.EntityId)) return false;
+            if (!_guidedMissileDict.ContainsKey(missile.EntityId)) return false;
             if (missile.MarkedForClose) return false;
             //  Log.Info("missiledict contains missile and isnt marked for close");
             MissileDataContainer mdC;
-            guidedMissileDict.TryGetValue(missile.EntityId, out mdC);
+            _guidedMissileDict.TryGetValue(missile.EntityId, out mdC);
             mdC.Target = target;
             //  Log.Info("SetTargetForMissile: return true");
             return true;
@@ -438,9 +438,9 @@ namespace GuidedMissile.GuidedMissileScript
 
             if ((missile == null) || (target == null)) return false;
 
-            if (guidedMissileDict.ContainsKey(missile.EntityId)) return false;
+            if (_guidedMissileDict.ContainsKey(missile.EntityId)) return false;
             if (IgnoreSet.Contains(missile)) return false;
-            guidedMissileDict.Add(missile.EntityId, new MissileDataContainer(missile, target, safetyTimer, deathTimer, turningSpeed, onExplode, hasPhysicsSteering));
+            _guidedMissileDict.Add(missile.EntityId, new MissileDataContainer(missile, target, safetyTimer, deathTimer, turningSpeed, onExplode, hasPhysicsSteering));
             //   Log.Info("Added missile " + missile.EntityId + " with Target " + target.EntityId + " and safetyTimer " + safetyTimer + " Frames to the dictionary!");
             DisplayWarningMessage(target);
             return true;
@@ -471,8 +471,8 @@ namespace GuidedMissile.GuidedMissileScript
         public bool RemoveMissileFromDict(IMyEntity missile)
         {
             if (missile == null) return false;
-            if (!guidedMissileDict.ContainsKey(missile.EntityId)) return false;
-            guidedMissileDict.Remove(missile.EntityId);
+            if (!_guidedMissileDict.ContainsKey(missile.EntityId)) return false;
+            _guidedMissileDict.Remove(missile.EntityId);
             return true;
         }
         public static bool IsGuidedMissile(IMyEntity missile)
@@ -481,19 +481,19 @@ namespace GuidedMissile.GuidedMissileScript
         }
         public bool MissileIsGuided(IMyEntity missile)
         {
-            return guidedMissileDict.ContainsKey(missile.EntityId);
+            return _guidedMissileDict.ContainsKey(missile.EntityId);
         }
 
         public bool AddTurretToSet(IMyEntity turret)
         {
             //     Log.Info("tried to add turret to set");
-            return turretSet.Add(turret);
+            return _turretSet.Add(turret);
         }
 
         public bool RemoveTurretFromSet(IMyEntity turret)
         {
             //     Log.Info("tried to remove turret from Set");
-            return turretSet.Remove(turret);
+            return _turretSet.Remove(turret);
         }
 
         public void UpdateTurret(IMyEntity turret)
@@ -523,28 +523,32 @@ namespace GuidedMissile.GuidedMissileScript
             delFromIgnoreSet.Clear();
 
             HashSet<WarningMessageContainer> delFromWarningSet = new HashSet<WarningMessageContainer>();
-            foreach (WarningMessageContainer container in warningGridSet)
+            foreach (WarningMessageContainer container in _warningGridSet)
             {
                 if (container != null)
                 {
                     container.Update();
-                    if (container.Ticks > 240) delFromWarningSet.Add(container);
-                    if (container.Grid == null) delFromWarningSet.Add(container);
-                    if (container.Grid.MarkedForClose) delFromWarningSet.Add(container);
+                    if (container.Ticks > 240) { delFromWarningSet.Add(container); }
+                    if (container.Grid == null) { delFromWarningSet.Add(container); }
+                    else
+                    {
+                        if (container.Grid.MarkedForClose) { delFromWarningSet.Add(container); }
+                    }
+
                 }
             }
-            warningGridSet.ExceptWith(delFromWarningSet);
+            _warningGridSet.ExceptWith(delFromWarningSet);
             delFromWarningSet.Clear();
 
-            Dictionary<long, MissileDataContainer>.KeyCollection keyCollection = guidedMissileDict.Keys;
+            Dictionary<long, MissileDataContainer>.KeyCollection keyCollection = _guidedMissileDict.Keys;
             foreach (long key in keyCollection)
             {
                 MissileDataContainer missileData;
-                if (guidedMissileDict.TryGetValue(key, out missileData))
+                if (_guidedMissileDict.TryGetValue(key, out missileData))
                 {
                     if (missileData.IsExpired())
                     {
-                        deleteSet.Add(key);
+                        _deleteSet.Add(key);
                         missileData.SetEmpty();
                     }
                     else
@@ -553,22 +557,22 @@ namespace GuidedMissile.GuidedMissileScript
                     }
                 }
             }
-            foreach (long deleteId in deleteSet)
+            foreach (long deleteId in _deleteSet)
             {
-                guidedMissileDict.Remove(deleteId);
+                _guidedMissileDict.Remove(deleteId);
             }
-            deleteSet.Clear();
+            _deleteSet.Clear();
 
-            foreach (IMyEntity turret in turretSet)
+            foreach (IMyEntity turret in _turretSet)
             {
-                if (turret.MarkedForClose) { deleteTurretSet.Add(turret); }
+                if (turret.MarkedForClose) { _deleteTurretSet.Add(turret); }
                 else
                 {
                     UpdateTurret(turret);
                 }
             }
-            turretSet.ExceptWith(deleteTurretSet);
-            deleteTurretSet.Clear();
+            _turretSet.ExceptWith(_deleteTurretSet);
+            _deleteTurretSet.Clear();
 
         }
 

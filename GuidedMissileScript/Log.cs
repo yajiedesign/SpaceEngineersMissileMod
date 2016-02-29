@@ -13,28 +13,28 @@ namespace GuidedMissile.GuidedMissileScript
 {
     class Log : MySessionComponentBase
     {
-        private const string MOD_NAME = "GuidedMissiles";
-        private const string LOG_FILE = "info.log";
+        private const string ModName = "GuidedMissiles";
+        private const string LogFile = "info.log";
 
-        private static System.IO.TextWriter writer = null;
-        private static IMyHudNotification notify = null;
-        private static int indent = 0;
-        private static StringBuilder cache = new StringBuilder();
+        private static System.IO.TextWriter _writer = null;
+        private static IMyHudNotification _notify = null;
+        private static int _indent = 0;
+        private static readonly StringBuilder Cache = new StringBuilder();
 
         public static void IncreaseIndent()
         {
-            indent++;
+            _indent++;
         }
 
         public static void DecreaseIndent()
         {
-            if (indent > 0)
-                indent--;
+            if (_indent > 0)
+                _indent--;
         }
 
         public static void ResetIndent()
         {
-            indent = 0;
+            _indent = 0;
         }
 
         public static void Error(Exception e)
@@ -48,21 +48,21 @@ namespace GuidedMissile.GuidedMissileScript
 
             try
             {
-                string text = MOD_NAME + " error - open %AppData%/SpaceEngineers/Storage/..._" + MOD_NAME + "/" + LOG_FILE + " for details";
+                string text = ModName + " error - open %AppData%/SpaceEngineers/Storage/..._" + ModName + "/" + LogFile + " for details";
 
                 MyLog.Default.WriteLineAndConsole(text);
 
-                if (notify == null)
+                if (_notify == null)
                 {
-                    notify = MyAPIGateway.Utilities.CreateNotification(text, 10000, MyFontEnum.Red);
+                    _notify = MyAPIGateway.Utilities.CreateNotification(text, 10000, MyFontEnum.Red);
                 }
                 else
                 {
-                    notify.Text = text;
-                    notify.ResetAliveTime();
+                    _notify.Text = text;
+                    _notify.ResetAliveTime();
                 }
 
-                notify.Show();
+                _notify.Show();
             }
             catch (Exception e)
             {
@@ -79,46 +79,46 @@ namespace GuidedMissile.GuidedMissileScript
         {
             try
             {
-                if (writer == null)
+                if (_writer == null)
                 {
                     if (MyAPIGateway.Utilities == null)
                         throw new Exception("API not initialied but got a log message: " + msg);
 
-                    writer = MyAPIGateway.Utilities.WriteFileInLocalStorage(LOG_FILE, typeof(Log));
+                    _writer = MyAPIGateway.Utilities.WriteFileInLocalStorage(LogFile, typeof(Log));
                 }
 
-                cache.Clear();
-                cache.Append(DateTime.Now.ToString("[HH:mm:ss] "));
+                Cache.Clear();
+                Cache.Append(DateTime.Now.ToString("[HH:mm:ss] "));
 
-                for (int i = 0; i < indent; i++)
+                for (int i = 0; i < _indent; i++)
                 {
-                    cache.Append("\t");
+                    Cache.Append("\t");
                 }
 
-                cache.Append(msg);
+                Cache.Append(msg);
 
-                writer.WriteLine(cache);
-                writer.Flush();
+                _writer.WriteLine(Cache);
+                _writer.Flush();
 
-                cache.Clear();
+                Cache.Clear();
             }
             catch (Exception e)
             {
-                MyLog.Default.WriteLineAndConsole(MOD_NAME + " had an error while logging message='" + msg + "'\nLogger error: " + e.Message + "\n" + e.StackTrace);
+                MyLog.Default.WriteLineAndConsole(ModName + " had an error while logging message='" + msg + "'\nLogger error: " + e.Message + "\n" + e.StackTrace);
             }
         }
 
         public static void Close()
         {
-            if (writer != null)
+            if (_writer != null)
             {
-                writer.Flush();
-                writer.Close();
-                writer = null;
+                _writer.Flush();
+                _writer.Close();
+                _writer = null;
             }
 
-            indent = 0;
-            cache.Clear();
+            _indent = 0;
+            Cache.Clear();
         }
     }
 }
