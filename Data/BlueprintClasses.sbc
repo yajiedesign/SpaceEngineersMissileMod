@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <BlueprintClassEntries>
+
+    <Entry Class="Components" BlueprintSubtypeId="CruiseMissile" />
+    <Entry Class="Ammo" BlueprintSubtypeId="CruiseMissile" />
+    
+    <Entry Class="Components" BlueprintSubtypeId="CatapultTorpedo" />
+    <Entry Class="Ammo" BlueprintSubtypeId="CatapultTorpedo" />
+    
+	<Entry Class="Components" BlueprintSubtypeId="SidewinderMissile" />
+    <Entry Class="Ammo" BlueprintSubtypeId="SidewinderMissile" />
+
+    <Entry Class="Components" BlueprintSubtypeId="FlareProjectile" />
+    <Entry Class="Ammo" BlueprintSubtypeId="FlareProjectile" />
+	
+    <Entry Class="Components" BlueprintSubtypeId="GuidedMissileTargeterAmmo" />
+    <Entry Class="Ammo" BlueprintSubtypeId="GuidedMissileTargeterAmmo" />
+
+  </BlueprintClassEntries>
+</Definitions>

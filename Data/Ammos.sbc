@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Ammos>
+    <Ammo xsi:type="MyObjectBuilder_MissileAmmoDefinition">
+      <Id>
+        <TypeId>AmmoDefinition</TypeId>
+        <SubtypeId>CruiseMissile</SubtypeId>
+      </Id>
+      <BasicProperties>
+        <DesiredSpeed>150</DesiredSpeed>
+        <SpeedVariance>10</SpeedVariance>
+        <MaxTrajectory>4000</MaxTrajectory>
+        <IsExplosive>true</IsExplosive>
+        <BackkickForce>0</BackkickForce>
+      </BasicProperties>
+      <MissileProperties>
+        <MissileMass>500</MissileMass>
+        <MissileExplosionRadius>5</MissileExplosionRadius>
+        <MissileModelName>Models\CruiseMissile_Large.mwm</MissileModelName>
+        <MissileAcceleration>15</MissileAcceleration>
+        <MissileInitialSpeed>20</MissileInitialSpeed>
+        <MissileSkipAcceleration>false</MissileSkipAcceleration>
+        <MissileExplosionDamage>50000</MissileExplosionDamage> 
+      </MissileProperties>
+    </Ammo>
+    
+    <Ammo xsi:type="MyObjectBuilder_MissileAmmoDefinition">
+      <Id>
+        <TypeId>AmmoDefinition</TypeId>
+        <SubtypeId>CatapultTorpedo</SubtypeId>
+      </Id>
+      <BasicProperties>
+        <DesiredSpeed>125</DesiredSpeed>
+        <SpeedVariance>10</SpeedVariance>
+        <MaxTrajectory>10000</MaxTrajectory>
+        <IsExplosive>true</IsExplosive>
+        <BackkickForce>0</BackkickForce>
+      </BasicProperties>
+      <MissileProperties>
+        <MissileMass>2000</MissileMass>
+        <MissileExplosionRadius>15</MissileExplosionRadius>
+        <MissileModelName>Models\Torpedo_Large.mwm</MissileModelName>
+        <MissileAcceleration>5</MissileAcceleration>
+        <MissileInitialSpeed>20</MissileInitialSpeed>
+        <MissileSkipAcceleration>false</MissileSkipAcceleration>
+        <MissileExplosionDamage>500000</MissileExplosionDamage>
+      </MissileProperties>
+    </Ammo>
+    
+   <Ammo xsi:type="MyObjectBuilder_MissileAmmoDefinition">
+      <Id>
+        <TypeId>AmmoDefinition</TypeId>
+        <SubtypeId>SidewinderMissile</SubtypeId>
+      </Id>
+      <BasicProperties>
+        <DesiredSpeed>300</DesiredSpeed>
+        <SpeedVariance>10</SpeedVariance>
+        <MaxTrajectory>4000</MaxTrajectory>
+        <IsExplosive>true</IsExplosive>
+        <BackkickForce>0</BackkickForce>
+      </BasicProperties>
+      <MissileProperties>
+        <MissileMass>75</MissileMass>
+        <MissileExplosionRadius>2</MissileExplosionRadius>
+        <MissileModelName>Models\SidewinderMissile_Large.mwm</MissileModelName>
+        <MissileAcceleration>25</MissileAcceleration>
+        <MissileInitialSpeed>20</MissileInitialSpeed>
+        <MissileSkipAcceleration>false</MissileSkipAcceleration>
+        <MissileExplosionDamage>5000</MissileExplosionDamage> 
+      </MissileProperties>
+    </Ammo>
+    
+    <Ammo xsi:type="MyObjectBuilder_MissileAmmoDefinition">
+      <Id>
+        <TypeId>AmmoDefinition</TypeId>
+        <SubtypeId>FlareProjectile</SubtypeId>
+      </Id>
+      <BasicProperties>
+        <DesiredSpeed>90</DesiredSpeed>
+        <SpeedVariance>0</SpeedVariance>
+        <MaxTrajectory>500</MaxTrajectory>
+        <IsExplosive>false</IsExplosive>
+        <BackkickForce>0</BackkickForce>
+      </BasicProperties>
+      <MissileProperties>
+        <MissileMass>50</MissileMass>
+        <MissileExplosionRadius>0</MissileExplosionRadius>
+        <MissileModelName>Models\Weapons\Projectile_Missile.mwm</MissileModelName>
+        <MissileAcceleration>0</MissileAcceleration>
+        <MissileInitialSpeed>80</MissileInitialSpeed>
+        <MissileSkipAcceleration>false</MissileSkipAcceleration>
+        <MissileExplosionDamage>0</MissileExplosionDamage>
+      </MissileProperties>
+    </Ammo>
+    
+    <Ammo xsi:type="MyObjectBuilder_MissileAmmoDefinition">
+      <Id>
+        <TypeId>AmmoDefinition</TypeId>
+        <SubtypeId>GuidedMissileTargeterAmmo</SubtypeId>
+      </Id>
+      <BasicProperties>
+        <DesiredSpeed>1000</DesiredSpeed>
+        <SpeedVariance>0</SpeedVariance>
+        <MaxTrajectory>1000</MaxTrajectory>
+        <IsExplosive>false</IsExplosive>
+        <BackkickForce>0</BackkickForce>
+      </BasicProperties>
+      <MissileProperties>
+        <MissileMass>1</MissileMass>
+        <MissileExplosionRadius>0</MissileExplosionRadius>
+        <MissileModelName>Models\Weapons\Projectile_Missile.mwm</MissileModelName>
+        <MissileAcceleration>1</MissileAcceleration>
+        <MissileInitialSpeed>1000</MissileInitialSpeed>
+        <MissileSkipAcceleration>true</MissileSkipAcceleration>
+        <MissileExplosionDamage>0</MissileExplosionDamage> 
+      </MissileProperties>
+    </Ammo>
+  </Ammos>
+</Definitions>

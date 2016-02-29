@@ -79,9 +79,36 @@
     <Compile Include="GuidedMissileScript\ZJBitConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\AmmoMagazines.sbc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Ammos.sbc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Audio.sbc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\BlockCategories.sbc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\BlueprintClasses.sbc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Blueprints.sbc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\CubeBlocks.sbc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Weapons.sbc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /y $(ProjectDir)\GuidedMissileScript\*.cs C:\Users\hu\AppData\Roaming\SpaceEngineers\Mods\Missile\Data\Scripts\GuidedMissileScript\</PostBuildEvent>
+    <PostBuildEvent>copy /y $(ProjectDir)\GuidedMissileScript\*.cs C:\Users\hu\AppData\Roaming\SpaceEngineers\Mods\Missile\Data\Scripts\GuidedMissileScript\
+copy /y $(ProjectDir)\Data\*.sbc C:\Users\hu\AppData\Roaming\SpaceEngineers\Mods\Missile\Data\</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

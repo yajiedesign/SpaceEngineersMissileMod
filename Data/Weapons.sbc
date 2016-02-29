@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Weapons>
+	<Weapon>
+      <Id>
+        <TypeId>WeaponDefinition</TypeId>
+        <SubtypeId>CruiseMissileLauncher</SubtypeId>
+      </Id>
+      <MissileAmmoData RateOfFire="4" ShootSoundName="WepShipSmallMissileShot" />
+
+      <NoAmmoSoundName>WepShipGatlingNoAmmo</NoAmmoSoundName>
+
+      <AmmoMagazines>
+		<AmmoMagazine Subtype="CruiseMissile" />
+      </AmmoMagazines>
+    </Weapon>
+    
+    <Weapon>
+      <Id>
+        <TypeId>WeaponDefinition</TypeId>
+        <SubtypeId>CatapultTorpedoLauncher</SubtypeId>
+      </Id>
+      <MissileAmmoData RateOfFire="2" ShootSoundName="WepShipSmallMissileShot" />
+
+      <NoAmmoSoundName>WepShipGatlingNoAmmo</NoAmmoSoundName>
+
+      <AmmoMagazines>
+        <AmmoMagazine Subtype="CatapultTorpedo" />
+      </AmmoMagazines>
+    </Weapon>
+    
+	<Weapon>
+      <Id>
+        <TypeId>WeaponDefinition</TypeId>
+        <SubtypeId>SidewinderMissileLauncher</SubtypeId>
+      </Id>
+      <MissileAmmoData RateOfFire="20" ShootSoundName="WepShipSmallMissileShot" />
+
+      <NoAmmoSoundName>WepShipGatlingNoAmmo</NoAmmoSoundName>
+
+      <AmmoMagazines>
+		<AmmoMagazine Subtype="SidewinderMissile" />
+      </AmmoMagazines>
+    </Weapon>
+    
+    <Weapon>
+      <Id>
+        <TypeId>WeaponDefinition</TypeId>
+        <SubtypeId>FlareLauncher</SubtypeId>
+      </Id>
+      <MissileAmmoData RateOfFire="10" ShootSoundName="WepShipSmallMissileShot" />
+
+      <NoAmmoSoundName>WepShipGatlingNoAmmo</NoAmmoSoundName>
+
+      <AmmoMagazines>
+        <AmmoMagazine Subtype="FlareProjectile" />
+      </AmmoMagazines>
+    </Weapon>
+    
+    <Weapon>
+      <Id>
+        <TypeId>WeaponDefinition</TypeId>
+        <SubtypeId>GuidedMissileTargeterWeapon</SubtypeId>
+      </Id>
+      <MissileAmmoData RateOfFire="30" ShootSoundName="GuidedMissileTargeterWeapon" />
+      <DeviateShotAngle>0</DeviateShotAngle>
+
+      <ReleaseTimeAfterFire>204</ReleaseTimeAfterFire>
+      <MuzzleFlashLifeSpan>20</MuzzleFlashLifeSpan>
+
+      <AmmoMagazines>
+        <AmmoMagazine Subtype="GuidedMissileTargeterAmmo" />
+      </AmmoMagazines>
+	</Weapon>
+    <Weapon>
+      <Id>
+        <TypeId>WeaponDefinition</TypeId>
+        <SubtypeId>FixedTargetPainterWeapon</SubtypeId>
+      </Id>
+      <MissileAmmoData RateOfFire="30" ShootSoundName="GuidedMissileTargeterWeapon" />
+      <DeviateShotAngle>0</DeviateShotAngle>
+
+      <ReleaseTimeAfterFire>204</ReleaseTimeAfterFire>
+      <MuzzleFlashLifeSpan>20</MuzzleFlashLifeSpan>
+
+      <AmmoMagazines>
+        <AmmoMagazine Subtype="GuidedMissileTargeterAmmo" />
+      </AmmoMagazines>
+    </Weapon>
+  </Weapons>
+</Definitions>
+

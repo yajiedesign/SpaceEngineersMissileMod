@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <CubeBlocks>
+    <Definition xsi:type="MyObjectBuilder_WeaponBlockDefinition">
+      <Id>
+        <TypeId>SmallMissileLauncher</TypeId>
+        <SubtypeId>CruiseMissileLauncher</SubtypeId>
+      </Id>
+      <DisplayName>'Longbow' Cruise Missile Launcher</DisplayName>
+      <Icon>Textures\GUI\Icons\Cubes\CruiseMissileLauncherIcon.dds</Icon>
+      <CubeSize>Large</CubeSize>
+      <BlockTopology>TriangleMesh</BlockTopology>
+      <Size x="1" y="1" z="2" />
+      <ModelOffset x="0" y="0" z="0" />
+ <!--     <Model>Models\Cubes\Large\RocketLauncher.mwm</Model> -->
+      <Model>Models\CruiseMissileLauncher_Large.mwm</Model>
+      <Components>
+        <Component Subtype="SteelPlate" Count="30" />
+        <Component Subtype="Construction" Count="10" />
+        <Component Subtype="MetalGrid" Count="30" />
+        <Component Subtype="LargeTube" Count="30" />
+        <Component Subtype="Motor" Count="8" />
+        <Component Subtype="Computer" Count="10" />        
+        <Component Subtype="SteelPlate" Count="20" />        
+      </Components>
+      <CriticalComponent Subtype="Computer" Index="0" />
+      <MountPoints>
+        <MountPoint Side="Back" StartX="0" StartY="0" EndX="1" EndY="1" />
+        <MountPoint Side="Top" StartX="0" StartY="0" EndX="1" EndY="2" />
+        <MountPoint Side="Bottom" StartX="0" StartY="0" EndX="1" EndY="2" />
+        <MountPoint Side="Right" StartX="0" StartY="0" EndX="2" EndY="1" />
+        <MountPoint Side="Left" StartX="0" StartY="0" EndX="2" EndY="1" />
+      </MountPoints>
+      <BuildProgressModels>
+        <Model BuildPercentUpperBound="0.33" File="Models\Cubes\Large\RocketLauncherConstruction_1.mwm" />
+        <Model BuildPercentUpperBound="0.66" File="Models\Cubes\Large\RocketLauncherConstruction_2.mwm" />
+        <Model BuildPercentUpperBound="1.00" File="Models\Cubes\Large\RocketLauncherConstruction_3.mwm" />
+      </BuildProgressModels>
+      <BlockPairName>CruiseMissileLauncher</BlockPairName>
+      <Center x="0" y="0" z="1" />
+      <BuildTimeSeconds>15</BuildTimeSeconds>
+      <EdgeType>Light</EdgeType>
+      <WeaponDefinitionId Subtype="CruiseMissileLauncher" />
+      <InventoryMaxVolume>0.7</InventoryMaxVolume>      <!-- equals 1:1000l -->
+
+      <DamageEffectId>213</DamageEffectId>
+      <DamagedSound>ParticleWeapExpl</DamagedSound>
+	</Definition>
+    
+    <!-- Fixed large target painter-->
+    <Definition xsi:type="MyObjectBuilder_WeaponBlockDefinition">
+      <Id>
+        <TypeId>SmallMissileLauncher</TypeId>
+        <SubtypeId>FixedTargetPainter</SubtypeId>
+      </Id>
+      <DisplayName>Fixed Large Target Painter</DisplayName>
+      <Icon>Textures\GUI\Icons\Cubes\CruiseMissileLauncherIcon.dds</Icon>
+      <CubeSize>Large</CubeSize>
+      <BlockTopology>TriangleMesh</BlockTopology>
+      <Size x="1" y="1" z="2" />
+      <ModelOffset x="0" y="0" z="0" />
+      <!--     <Model>Models\Cubes\Large\RocketLauncher.mwm</Model> -->
+      <Model>Models\FixedDesignator_Large.mwm</Model>
+      <Components>
+        <Component Subtype="SteelPlate" Count="10" />
+        <Component Subtype="Construction" Count="15" />
+        <Component Subtype="MetalGrid" Count="8" />
+        <Component Subtype="LargeTube" Count="2" />
+        <Component Subtype="Motor" Count="2" />
+        <Component Subtype="Computer" Count="15" />
+        <Component Subtype="PowerCell" Count="5" />
+        <Component Subtype="SteelPlate" Count="5" />
+      </Components>
+      <CriticalComponent Subtype="Computer" Index="0" />
+      <MountPoints>
+     <MountPoint EndY="1.00" EndX="1.00" StartY="0.00" StartX="0.00" Side="Back"/>
+     <MountPoint EndY="1.00" EndX="2.00" StartY="0.00" StartX="1.00" Side="Left"/>
+     <MountPoint EndY="1.00" EndX="1.00" StartY="0.00" StartX="0.00" Side="Right"/>
+      </MountPoints>
+      <BuildProgressModels>
+        <Model BuildPercentUpperBound="0.33" File="Models\Cubes\Large\RocketLauncherConstruction_1.mwm" />
+        <Model BuildPercentUpperBound="0.66" File="Models\Cubes\Large\RocketLauncherConstruction_2.mwm" />
+        <Model BuildPercentUpperBound="1.00" File="Models\Cubes\Large\RocketLauncherConstruction_3.mwm" />
+      </BuildProgressModels>
+      <BlockPairName>FixedTargetPainter</BlockPairName>
+      <Center x="0" y="0" z="1" />
+      <BuildTimeSeconds>15</BuildTimeSeconds>
+      <EdgeType>Light</EdgeType>
+      <WeaponDefinitionId Subtype="FixedTargetPainterWeapon" />
+      <InventoryMaxVolume>0.2</InventoryMaxVolume>
+      <DamageEffectId>213</DamageEffectId>
+      <DamagedSound>ParticleWeapExpl</DamagedSound>
+    </Definition>
+    
+    <!-- Torpedo Launcher Catapult-->
+    <Definition xsi:type="MyObjectBuilder_WeaponBlockDefinition">
+      <Id>
+        <TypeId>SmallMissileLauncher</TypeId>
+        <SubtypeId>CatapultTorpedoLauncher</SubtypeId>
+      </Id>
+      <DisplayName>'Catapult' Torpedo Launcher</DisplayName>
+      <Icon>Textures\GUI\Icons\Cubes\CatapultTorpedoLauncherIcon.dds</Icon>
+      <CubeSize>Large</CubeSize>
+      <BlockTopology>TriangleMesh</BlockTopology>
+      <Size x="2" y="2" z="5" />
+      <ModelOffset x="0" y="0" z="0" />
+      <Model>Models\CatapultTorpedoLauncher_Large.mwm</Model>
+      <Components>
+        <Component Subtype="SteelPlate" Count="320" />
+        <Component Subtype="Construction" Count="80" />
+        <Component Subtype="MetalGrid" Count="80" />
+        <Component Subtype="LargeTube" Count="200" />
+        <Component Subtype="Motor" Count="60" />
+        <Component Subtype="Computer" Count="60" />
+        <Component Subtype="SteelPlate" Count="100" />
+      </Components>
+      <CriticalComponent Subtype="Computer" Index="0" />
+      <MountPoints>
+        <MountPoint Side="Back" StartX="0" StartY="0" EndX="2" EndY="2" />
+        <MountPoint Side="Top" StartX="0" StartY="0" EndX="2" EndY="5" />
+        <MountPoint Side="Bottom" StartX="0" StartY="0" EndX="2" EndY="5" />
+        <MountPoint Side="Right" StartX="0" StartY="0" EndX="5" EndY="2" />
+        <MountPoint Side="Left" StartX="0" StartY="0" EndX="5" EndY="2" />
+      </MountPoints>
+      <BuildProgressModels>
+        <Model BuildPercentUpperBound="0.33" File="Models\Cubes\Large\RocketLauncherConstruction_1.mwm" />
+        <Model BuildPercentUpperBound="0.66" File="Models\Cubes\Large\RocketLauncherConstruction_2.mwm" />
+        <Model BuildPercentUpperBound="1.00" File="Models\Cubes\Large\RocketLauncherConstruction_3.mwm" />
+      </BuildProgressModels>
+      <BlockPairName>CatapultTorpedoLauncher</BlockPairName>
+      <Center x="1" y="1" z="2" />
+      <BuildTimeSeconds>15</BuildTimeSeconds>
+      <EdgeType>Light</EdgeType>
+      <WeaponDefinitionId Subtype="CatapultTorpedoLauncher" />
+      <InventoryMaxVolume>2.8</InventoryMaxVolume>
+      <DamageEffectId>213</DamageEffectId>
+      <DamagedSound>ParticleWeapExpl</DamagedSound>
+    </Definition>
+ <!-- Small guided missile launcher "Sidewinder" -->
+ 
+    <Definition xsi:type="MyObjectBuilder_WeaponBlockDefinition">
+      <Id>
+        <TypeId>SmallMissileLauncher</TypeId>
+        <SubtypeId>SidewinderSmallMissileLauncher</SubtypeId>
+      </Id>
+      <DisplayName>'Sidewinder' Small Missile Launcher</DisplayName>
+      <Icon>Textures\GUI\Icons\Cubes\SidewinderLauncherIcon.dds</Icon>
+      <CubeSize>Small</CubeSize>
+      <BlockTopology>TriangleMesh</BlockTopology>
+      <Size x="2" y="1" z="4" />
+      <ModelOffset x="0" y="0" z="0" />
+      <Model>Models\SidewinderLauncher_Small.mwm</Model>
+      <Components>
+        <Component Subtype="SteelPlate" Count="3" />
+        <Component Subtype="Construction" Count="5" />
+        <Component Subtype="MetalGrid" Count="2" />
+        <Component Subtype="LargeTube" Count="10" />
+        <Component Subtype="Motor" Count="4" />
+        <Component Subtype="Computer" Count="4" />
+        <Component Subtype="SteelPlate" Count="6" />
+      </Components>
+      <CriticalComponent Subtype="Computer" Index="0" />
+      <MountPoints>
+        <MountPoint Side="Back" StartX="0" StartY="0" EndX="2" EndY="1" />
+        <MountPoint Side="Top" StartX="0" StartY="0" EndX="2" EndY="4" />
+        <MountPoint Side="Bottom" StartX="0" StartY="0" EndX="2" EndY="4" />
+        <MountPoint Side="Right" StartX="0" StartY="0" EndX="4" EndY="1" />
+        <MountPoint Side="Left" StartX="0" StartY="0" EndX="4" EndY="1" />
+      </MountPoints>
+      <BuildProgressModels>
+        <Model BuildPercentUpperBound="0.50" File="Models\Cubes\Small\RocketLauncherConstruction_1.mwm" />
+        <Model BuildPercentUpperBound="1.00" File="Models\Cubes\Small\RocketLauncherConstruction_2.mwm" />
+      </BuildProgressModels>
+      <BlockPairName>SidewinderSmallMissileLauncher</BlockPairName>
+      <Center x="0" y="0" z="3" />
+      <BuildTimeSeconds>15</BuildTimeSeconds>
+      <EdgeType>Light</EdgeType>
+      <WeaponDefinitionId Subtype="SidewinderMissileLauncher" />
+      <InventoryMaxVolume>0.2</InventoryMaxVolume>
+      <DamageEffectId>213</DamageEffectId>
+      <DamagedSound>ParticleWeapExpl</DamagedSound>
+    </Definition>
+    <!-- Small Flare Launcher -->
+
+    <Definition xsi:type="MyObjectBuilder_WeaponBlockDefinition">
+      <Id>
+        <TypeId>SmallMissileLauncher</TypeId>
+        <SubtypeId>FlareLauncher</SubtypeId>
+      </Id>
+      <DisplayName>Flare Launcher</DisplayName>
+      <Icon>Textures\GUI\Icons\Cubes\SidewinderLauncherIcon.dds</Icon>
+      <CubeSize>Small</CubeSize>
+      <BlockTopology>TriangleMesh</BlockTopology>
+      <Size x="3" y="1" z="1" />
+      <ModelOffset x="0" y="0" z="0" />
+      <Model>Models\FlareLauncher_Small.mwm</Model>
+      <Components>
+        <Component Subtype="SteelPlate" Count="2" />
+        <Component Subtype="Construction" Count="5" />
+        <Component Subtype="MetalGrid" Count="2" />
+        <Component Subtype="LargeTube" Count="5" />
+        <Component Subtype="Motor" Count="2" />
+        <Component Subtype="Computer" Count="2" />
+        <Component Subtype="SteelPlate" Count="2" />
+      </Components>
+      <CriticalComponent Subtype="Computer" Index="0" />
+      <MountPoints>
+        <MountPoint Side="Back" StartX="0" StartY="0" EndX="3" EndY="1" />
+        <MountPoint Side="Top" StartX="0" StartY="0" EndX="3" EndY="1" />
+        <MountPoint Side="Bottom" StartX="0" StartY="0" EndX="3" EndY="1" />
+        <MountPoint Side="Right" StartX="0" StartY="0" EndX="1" EndY="1" />
+        <MountPoint Side="Left" StartX="0" StartY="0" EndX="1" EndY="1" />
+      </MountPoints>
+      <BuildProgressModels>
+        <Model BuildPercentUpperBound="0.50" File="Models\Cubes\Small\RocketLauncherConstruction_1.mwm" />
+        <Model BuildPercentUpperBound="1.00" File="Models\Cubes\Small\RocketLauncherConstruction_2.mwm" />
+      </BuildProgressModels>
+      <BlockPairName>FlareLauncher</BlockPairName>
+      <Center x="2" y="0" z="0" />
+      <BuildTimeSeconds>15</BuildTimeSeconds>
+      <EdgeType>Light</EdgeType>
+      <WeaponDefinitionId Subtype="FlareLauncher" />
+      <InventoryMaxVolume>0.2</InventoryMaxVolume>
+      <DamageEffectId>213</DamageEffectId>
+      <DamagedSound>ParticleWeapExpl</DamagedSound>
+    </Definition>
+	<!-- Target painter for large grids -->
+	
+    <Definition xsi:type="MyObjectBuilder_LargeTurretBaseDefinition">
+      <Id>
+        <TypeId>LargeMissileTurret</TypeId>
+        <SubtypeId>GuidedMissileTargeter</SubtypeId>
+      </Id>
+      <DisplayName>Guided Missile Targeter Turret</DisplayName>
+      <Icon>Textures\GUI\Icons\Cubes\TargetPainterIcon.dds</Icon>
+      <CubeSize>Large</CubeSize>
+      <BlockTopology>TriangleMesh</BlockTopology>
+      <Size x="3" y="3" z="3" />
+      <ModelOffset x="0" y="0" z="0" />
+      <Model>Models\Cubes\Large\MissileTurret.mwm</Model>
+      <UseModelIntersection>true</UseModelIntersection>
+      <Components>
+        <Component Subtype="SteelPlate" Count="10" />
+        <Component Subtype="Construction" Count="20" />
+        <Component Subtype="MetalGrid" Count="10" />
+        <Component Subtype="LargeTube" Count="3" />
+        <Component Subtype="Motor" Count="5" />
+        <Component Subtype="Computer" Count="20" />
+        <Component Subtype="SteelPlate" Count="10" />
+      </Components>
+      <CriticalComponent Subtype="Computer" Index="0" />
+      <MountPoints>
+        <MountPoint Side="Bottom" StartX="1" StartY="1" EndX="2" EndY="2" />
+      </MountPoints>
+      <BuildProgressModels>
+        <Model BuildPercentUpperBound="0.33" File="Models\Cubes\Large\MissileTurretConstruction_1.mwm" />
+        <Model BuildPercentUpperBound="0.66" File="Models\Cubes\Large\MissileTurretConstruction_2.mwm" />
+        <Model BuildPercentUpperBound="1.00" File="Models\Cubes\Large\MissileTurretConstruction_3.mwm" />
+      </BuildProgressModels>
+      <BlockPairName>GuidedMissileTargeter</BlockPairName>
+      <MirroringY>Z</MirroringY>
+      <MirroringZ>Y</MirroringZ>
+      <EdgeType>Light</EdgeType>
+      <BuildTimeSeconds>40</BuildTimeSeconds>
+      <OverlayTexture>Textures\GUI\Screens\target_painter_overlay.dds</OverlayTexture>
+      <WeaponDefinitionId Subtype="GuidedMissileTargeterWeapon" />
+      <InventoryMaxVolume>0.2</InventoryMaxVolume>
+      <DamageEffectId>213</DamageEffectId>
+      <DamagedSound>ParticleWeapExpl</DamagedSound>
+      <MinElevationDegrees>-180</MinElevationDegrees>
+      <MaxElevationDegrees>180</MaxElevationDegrees>
+      <MinAzimuthDegrees>-180</MinAzimuthDegrees>
+      <MaxAzimuthDegrees>180</MaxAzimuthDegrees>
+      <IdleRotation>false</IdleRotation>
+      <MaxRangeMeters>800</MaxRangeMeters>
+      <RotationSpeed>0.001</RotationSpeed>
+      <ElevationSpeed>0.001 </ElevationSpeed>
+	  <AiEnabled>false</AiEnabled>
+    </Definition>
+	
+  </CubeBlocks>
+  <!--
+ <BlockPositions>
+    <BlockPosition>
+      <Name>CruiseMissileLauncher</Name>
+      <Position>
+        <X>1</X>
+        <Y>12</Y>
+      </Position>
+    </BlockPosition>
+  </BlockPositions>
+
+-->
+</Definitions>

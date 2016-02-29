@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <AmmoMagazines>
+    <AmmoMagazine>
+      <Id>
+        <TypeId>AmmoMagazine</TypeId>
+        <SubtypeId>CruiseMissile</SubtypeId>
+      </Id>
+      <DisplayName>'Longbow' Cruise Missile Magazine</DisplayName>
+      <Icon>Textures\GUI\Icons\ammo\Small_Rocket.dds</Icon>
+      <Size>
+        <X>4</X> <!-- in meter!-->
+        <Y>2</Y>
+        <Z>2</Z>
+      </Size>
+      <Mass>1500</Mass>
+      <Volume>350</Volume>   <!-- equals 1:1 in liter -->
+      <!-- 350 is baseline, since it fills out one inventory minus some excess-->
+      <Model>Models\\CruiseMissile_Large.mwm</Model>
+      <Capacity>4</Capacity>
+      <AmmoDefinitionId Subtype="CruiseMissile" />
+    </AmmoMagazine>
+    
+    <AmmoMagazine>
+      <Id>
+        <TypeId>AmmoMagazine</TypeId>
+        <SubtypeId>CatapultTorpedo</SubtypeId>
+      </Id>
+      <DisplayName>'Catapult' Torpedo Parts</DisplayName>
+      <Icon>Textures\GUI\Icons\ammo\Small_Rocket.dds</Icon>
+      <Size>
+        <X>4</X>
+        <Y>2</Y>
+        <Z>2</Z>
+      </Size>
+      <Mass>2000</Mass>
+      <Volume>350</Volume>
+      <Model>Models\\Torpedo_Large.mwm</Model>
+      <Capacity>1</Capacity>
+      <AmmoDefinitionId Subtype="CatapultTorpedo" />
+    </AmmoMagazine>
+    
+  <AmmoMagazine>
+      <Id>
+        <TypeId>AmmoMagazine</TypeId>
+        <SubtypeId>SidewinderMissile</SubtypeId>
+      </Id>
+      <DisplayName>'Sidewinder' Small Missile Magazine</DisplayName>
+      <Icon>Textures\GUI\Icons\ammo\Small_Rocket.dds</Icon>
+      <Size>
+        <X>3</X>
+        <Y>0.8</Y>
+        <Z>0.4</Z>
+      </Size>
+      <Mass>150</Mass>
+      <Volume>200</Volume>
+      <Model>Models\Weapons\Projectile_Missile.mwm</Model>
+      <Capacity>2</Capacity>
+      <AmmoDefinitionId Subtype="SidewinderMissile" />
+    </AmmoMagazine>
+	
+   <AmmoMagazine>
+      <Id>
+        <TypeId>AmmoMagazine</TypeId>
+        <SubtypeId>GuidedMissileTargeterAmmo</SubtypeId>
+      </Id>
+      <DisplayName>Target Painter Power Cell</DisplayName>
+      <Icon>Textures\GUI\Icons\ammo\Ammo_Box.dds</Icon>
+      <Size>
+        <X>0.4</X>
+        <Y>0.4</Y>
+        <Z>0.4</Z>
+      </Size>
+      <Mass>100</Mass>
+      <Volume>100</Volume>
+      <Model>Models\Weapons\Ammo_Box.mwm</Model>
+      <Capacity>100</Capacity>
+      <AmmoDefinitionId Subtype="GuidedMissileTargeterAmmo" />
+    </AmmoMagazine> 
+    
+    <AmmoMagazine>
+      <Id>
+        <TypeId>AmmoMagazine</TypeId>
+        <SubtypeId>FlareProjectile</SubtypeId>
+      </Id>
+      <DisplayName>Flare Launcher Ammo</DisplayName>
+      <Icon>Textures\GUI\Icons\ammo\Small_Rocket.dds</Icon>
+      <Size>
+        <X>3</X>
+        <Y>0.2</Y>
+        <Z>0.2</Z>
+      </Size>
+      <Mass>100</Mass>
+      <Volume>200</Volume>
+      <Model>Models\Weapons\Projectile_Missile.mwm</Model>
+      <Capacity>3</Capacity>
+      <AmmoDefinitionId Subtype="FlareProjectile" />
+    </AmmoMagazine> 
+  </AmmoMagazines>
+</Definitions>
