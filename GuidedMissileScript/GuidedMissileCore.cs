@@ -265,11 +265,12 @@ namespace GuidedMissile.GuidedMissileScript
                 Tick();
             }
 
-            public void Tick()
+            private void Tick()
             {
                 TrackedFrames++;
             }
-            public bool SafetyTimerIsOver()
+
+            private bool SafetyTimerIsOver()
             {
                 return (TrackedFrames > 0);
             }

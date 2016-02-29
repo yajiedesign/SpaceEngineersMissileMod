@@ -174,7 +174,7 @@ namespace GuidedMissile.GuidedMissileScript
                                 Log.Info("physics wasnt null and speed was sufficient");
                                 isActualMissile = true;
                             }
-                            else if ((Entity.Physics == null) || (Entity.Physics.LinearVelocity == null))
+                            else if ((Entity.Physics == null))
                             {
                                 Log.Info("physics was null!");
                                 Log.Info("ent speed was: " + ent.Physics.LinearVelocity.Length());

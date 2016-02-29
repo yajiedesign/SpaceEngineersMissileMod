@@ -74,8 +74,8 @@ namespace GuidedMissile.GuidedMissileScript
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
             BbInflateAmount = 1.5;
-            flareSet = new HashSet<IMyEntity>();
-            deleteSet = new HashSet<IMyEntity>();
+            _flareSet = new HashSet<IMyEntity>();
+            _deleteSet = new HashSet<IMyEntity>();
             base.Init(objectBuilder);
             //  Entity.DebugDraw();
             //   MyAPIGateway.Entities.EnableEntityBoundingBoxDraw(Entity, true, null, 0.05f, null);
@@ -84,10 +84,10 @@ namespace GuidedMissile.GuidedMissileScript
         }
         public override void Close()
         {
-            flareSet.Clear();
-            deleteSet.Clear();
-            flareSet = null;
-            deleteSet = null;
+            _flareSet.Clear();
+            _deleteSet.Clear();
+            _flareSet = null;
+            _deleteSet = null;
             base.Close();
         }
         protected override IMyEntity GetTarget(IMyEntity missile)
@@ -95,8 +95,8 @@ namespace GuidedMissile.GuidedMissileScript
             return null;
         }
 
-        public HashSet<IMyEntity> flareSet;
-        public HashSet<IMyEntity> deleteSet;
+        private HashSet<IMyEntity> _flareSet;
+        private HashSet<IMyEntity> _deleteSet;
         protected override void GuideMissiles(HashSet<IMyEntity> missileSet)
         {
             // Log.Info("called guidemissiles in flarelauncher");
@@ -111,10 +111,10 @@ namespace GuidedMissile.GuidedMissileScript
                 {
                     foreach (IMyEntity flare in missileSet)
                     {
-                        if (!flareSet.Contains(flare))
+                        if (!_flareSet.Contains(flare))
                         {
                             Log.Info("got a flare: ");
-                            flareSet.Add(flare);
+                            _flareSet.Add(flare);
                             int randomNumber = GuidedMissileCore.GetSyncedRandom().Next(1, 10);
                             if (randomNumber > (int)Math.Round(DeflectChance * 10))
                             {
@@ -127,14 +127,14 @@ namespace GuidedMissile.GuidedMissileScript
                         }
                     }
                 }
-                foreach (IMyEntity flare in flareSet)
+                foreach (IMyEntity flare in _flareSet)
                 {
                     if ((flare == null) || (flare.MarkedForClose))
                     {
-                        deleteSet.Add(flare);
+                        _deleteSet.Add(flare);
                     }
-                    flareSet.ExceptWith(deleteSet);
-                    deleteSet.Clear();
+                    _flareSet.ExceptWith(_deleteSet);
+                    _deleteSet.Clear();
                 }
             }
             catch (Exception e)

@@ -88,6 +88,7 @@ namespace GuidedMissile.GuidedMissileScript
             if (componentContainer == null)
             {
                 //     Log.Info("The grid.Components are null. Could not assign a target!");
+                return false;
             }
 
             GuidedMissileTargetGridHook targetGridHook = null;
@@ -146,13 +147,13 @@ namespace GuidedMissile.GuidedMissileScript
             }
         }
 
-        private MyObjectBuilder_EntityBase objectBuilder;
-        public IMyEntity missileTarget = null;
+        private MyObjectBuilder_EntityBase _objectBuilder;
+        private IMyEntity _missileTarget = null;
 
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
-            this.objectBuilder = objectBuilder;
-            removeSet = new HashSet<IMyEntity>();
+            this._objectBuilder = objectBuilder;
+            _removeSet = new HashSet<IMyEntity>();
             turretTargetDict = new Dictionary<IMyLargeTurretBase, IMyEntity>();
             Entity.NeedsUpdate |= MyEntityUpdateEnum.BEFORE_NEXT_FRAME | MyEntityUpdateEnum.EACH_FRAME | MyEntityUpdateEnum.EACH_10TH_FRAME | MyEntityUpdateEnum.EACH_100TH_FRAME;
             //      Log.Info("We initialized a grid hook");
@@ -163,8 +164,8 @@ namespace GuidedMissile.GuidedMissileScript
             try
             {
 
-                this.missileTarget = target;
-                if (this.missileTarget != null) return true;
+                this._missileTarget = target;
+                if (this._missileTarget != null) return true;
 
             }
             catch
@@ -176,18 +177,18 @@ namespace GuidedMissile.GuidedMissileScript
 
         public IMyEntity GetMissileTarget()
         {
-            return missileTarget;
+            return _missileTarget;
         }
         public override void Close()
         {
-            objectBuilder = null;
-            removeSet = null;
+            _objectBuilder = null;
+            _removeSet = null;
             turretTargetDict = null;
         }
         private Dictionary<IMyLargeTurretBase, IMyEntity> turretTargetDict;
         public override MyObjectBuilder_EntityBase GetObjectBuilder(bool copy = false)
         {
-            return copy ? (MyObjectBuilder_EntityBase)objectBuilder.Clone() : objectBuilder;
+            return copy ? (MyObjectBuilder_EntityBase)_objectBuilder.Clone() : _objectBuilder;
         }
         /**    public override void UpdateBeforeSimulation10() //Methods for turret targeting 
             {
@@ -212,7 +213,7 @@ namespace GuidedMissile.GuidedMissileScript
                 }
                 base.UpdateBeforeSimulation10();
             }  **/
-        private HashSet<IMyEntity> removeSet;
+        private HashSet<IMyEntity> _removeSet;
         public override void UpdateBeforeSimulation100()
         {
             if (GetMissileTarget() != null)
@@ -228,13 +229,13 @@ namespace GuidedMissile.GuidedMissileScript
 
                 foreach (IMyLargeTurretBase dictTurret in turretTargetDict.Keys)
                 {
-                    if (dictTurret.MarkedForClose) removeSet.Add(dictTurret);
+                    if (dictTurret.MarkedForClose) _removeSet.Add(dictTurret);
                 }
-                foreach (var key in removeSet)
+                foreach (var key in _removeSet)
                 {
                     turretTargetDict.Remove((IMyLargeTurretBase)key);
                 }
-                removeSet.Clear();
+                _removeSet.Clear();
 
                 if ((GetMissileTarget() == null) || (GetMissileTarget().MarkedForClose))
                 {

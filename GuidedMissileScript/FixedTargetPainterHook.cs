@@ -43,7 +43,7 @@ namespace GuidedMissile.GuidedMissileScript
         private const float MaxDistance = 3000;
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
-            this._objectBuilder = objectBuilder;
+            _objectBuilder = objectBuilder;
 
             Entity.NeedsUpdate |= MyEntityUpdateEnum.EACH_10TH_FRAME;
         }
