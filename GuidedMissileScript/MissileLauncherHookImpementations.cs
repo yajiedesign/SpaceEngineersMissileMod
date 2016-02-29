@@ -42,24 +42,24 @@ namespace GuidedMissile.GuidedMissileScript
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_SmallMissileLauncher), "CruiseMissileLauncher")]
     public class CruiseMissileLauncherHook : GuidedMissileLauncherHook
     {
-        protected override double BOUNDING_BOX_OFFSET_FRONT
+        protected override double BoundingBoxOffsetFront
         {
             get { return 0; }
         }
-        public override float TURNING_SPEED // IN DEGREES!
+        public override float TurningSpeed // IN DEGREES!
         {
             get { return 1f; }
         }
-        public override long DEATH_TIMER
+        public override long DeathTimer
         {
             get { return 1000; }
         }
-        public override long SAFETY_TIMER
+        public override long SafetyTimer
         {
             get { return 30; }
         }
 
-        public override bool HAS_PHYSICS_STEERING
+        public override bool HasPhysicsSteering
         {
             get { return true; }
         }
@@ -69,7 +69,7 @@ namespace GuidedMissile.GuidedMissileScript
         }
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
-            BB_INFLATE_AMOUNT = 2; //4
+            BbInflateAmount = 2; //4
 
             base.Init(objectBuilder);
 
@@ -80,24 +80,24 @@ namespace GuidedMissile.GuidedMissileScript
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_SmallMissileLauncher), "CatapultTorpedoLauncher")]
     public class CatapultTorpedoLauncherHook : GuidedMissileLauncherHook
     {
-        protected override double BOUNDING_BOX_OFFSET_FRONT
+        protected override double BoundingBoxOffsetFront
         {
             get { return 0; } //0
         }
-        public override float TURNING_SPEED // IN DEGREES!
+        public override float TurningSpeed // IN DEGREES!
         {
             get { return 0.5f; }
         }
-        public override long DEATH_TIMER
+        public override long DeathTimer
         {
             get { return 9000; }
         }
-        public override long SAFETY_TIMER
+        public override long SafetyTimer
         {
             get { return 80; }
         }
 
-        public override bool HAS_PHYSICS_STEERING
+        public override bool HasPhysicsSteering
         {
             get { return true; }
         }
@@ -107,7 +107,7 @@ namespace GuidedMissile.GuidedMissileScript
         }
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
-            BB_INFLATE_AMOUNT = 4; //4
+            BbInflateAmount = 4; //4
 
             base.Init(objectBuilder);
 
@@ -118,24 +118,24 @@ namespace GuidedMissile.GuidedMissileScript
     public class SidewinderLauncherHook : GuidedMissileLauncherHook
     {
 
-        protected override double BOUNDING_BOX_OFFSET_FRONT
+        protected override double BoundingBoxOffsetFront
         {
             get { return 0; }
         }
-        public override float TURNING_SPEED
+        public override float TurningSpeed
         {
             get { return 4f; }
         }
-        public override long DEATH_TIMER
+        public override long DeathTimer
         {
             get { return 200; }
         }
-        public override long SAFETY_TIMER
+        public override long SafetyTimer
         {
             get { return 30; }
         }
 
-        public override bool HAS_PHYSICS_STEERING
+        public override bool HasPhysicsSteering
         {
             get { return false; }
         }
@@ -147,7 +147,7 @@ namespace GuidedMissile.GuidedMissileScript
         }
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
-            BB_INFLATE_AMOUNT = 0.9;
+            BbInflateAmount = 0.9;
 
             base.Init(objectBuilder);
 

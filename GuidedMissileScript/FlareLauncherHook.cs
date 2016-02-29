@@ -43,24 +43,24 @@ namespace GuidedMissile.GuidedMissileScript
     {
         private const float DeflectChance = (7f / 10f); //rational number plox
 
-        protected override double BOUNDING_BOX_OFFSET_FRONT
+        protected override double BoundingBoxOffsetFront
         {
             get { return 0.5; }
         }
-        public override float TURNING_SPEED
+        public override float TurningSpeed
         {
             get { return 0f; }
         }
-        public override long DEATH_TIMER
+        public override long DeathTimer
         {
             get { return 80; }
         }
-        public override long SAFETY_TIMER
+        public override long SafetyTimer
         {
             get { return 0; }
         }
 
-        public override bool HAS_PHYSICS_STEERING
+        public override bool HasPhysicsSteering
         {
             get { return false; }
         }
@@ -73,7 +73,7 @@ namespace GuidedMissile.GuidedMissileScript
         }
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
-            BB_INFLATE_AMOUNT = 1.5;
+            BbInflateAmount = 1.5;
             flareSet = new HashSet<IMyEntity>();
             deleteSet = new HashSet<IMyEntity>();
             base.Init(objectBuilder);

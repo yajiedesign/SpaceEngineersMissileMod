@@ -41,12 +41,12 @@ namespace GuidedMissile.GuidedMissileScript
     {
         #region MissileAttributes
 
-        public abstract float TURNING_SPEED { get; }
-        public abstract long SAFETY_TIMER { get; }
-        public abstract long DEATH_TIMER { get; }
-        public abstract bool HAS_PHYSICS_STEERING { get; }
-        protected double BB_INFLATE_AMOUNT = 0;
-        protected abstract double BOUNDING_BOX_OFFSET_FRONT { get; }
+        public abstract float TurningSpeed { get; }
+        public abstract long SafetyTimer { get; }
+        public abstract long DeathTimer { get; }
+        public abstract bool HasPhysicsSteering { get; }
+        protected double BbInflateAmount = 0;
+        protected abstract double BoundingBoxOffsetFront { get; }
 
         public abstract void OnExplodeMissile(IMyEntity missile);
 
@@ -76,8 +76,8 @@ namespace GuidedMissile.GuidedMissileScript
         }
         protected virtual HashSet<IMyEntity> GetMissilesInBoundingBox()
         {
-            BoundingBoxD box = (BoundingBoxD)Entity.WorldAABB.GetInflated(BB_INFLATE_AMOUNT);
-            if (Math.Abs(BOUNDING_BOX_OFFSET_FRONT) > double.Epsilon) box = box.Translate(Entity.LocalMatrix.Forward * (float)BOUNDING_BOX_OFFSET_FRONT);
+            BoundingBoxD box = (BoundingBoxD)Entity.WorldAABB.GetInflated(BbInflateAmount);
+            if (Math.Abs(BoundingBoxOffsetFront) > double.Epsilon) box = box.Translate(Entity.LocalMatrix.Forward * (float)BoundingBoxOffsetFront);
             //Log.Info("Bounding box in GetMissilesInBoundingBox for "+ GetType()+ " is " + box.Size);
             List<IMyEntity> entitiesFound = MyAPIGateway.Entities.GetEntitiesInAABB(ref box);
             HashSet<IMyEntity> entitySet = new HashSet<IMyEntity>();
@@ -116,7 +116,7 @@ namespace GuidedMissile.GuidedMissileScript
             foreach (IMyEntity ent in missileSet)
             {
                 target = GetTarget(ent);
-                if (target != null) GuidedMissileSingleton.GetInstance().AddMissileToDict(ent, target, SAFETY_TIMER, DEATH_TIMER, TURNING_SPEED, onExplode, HAS_PHYSICS_STEERING);
+                if (target != null) GuidedMissileSingleton.GetInstance().AddMissileToDict(ent, target, SafetyTimer, DeathTimer, TurningSpeed, onExplode, HasPhysicsSteering);
             }
         }
         protected virtual IMyEntity GetTarget(IMyEntity missile)
