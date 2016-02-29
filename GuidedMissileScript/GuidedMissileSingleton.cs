@@ -50,21 +50,6 @@ namespace GuidedMissile.GuidedMissileScript
             GetInstance().UpdateBeforeSimulation();
 
         }
-        private class WarningMessageContainer
-        {
-            public long Ticks = 0;
-            public readonly IMyEntity Grid;
-
-            public WarningMessageContainer(IMyEntity grid)
-            {
-                this.Grid = grid;
-            }
-
-            public void Update()
-            {
-                Ticks++;
-            }
-        }
 
         private void DisplayWarningMessage(IMyEntity target)
         {
@@ -89,7 +74,7 @@ namespace GuidedMissile.GuidedMissileScript
                 List<IMyEntity> componentList = new List<IMyEntity>();
                 componentList.AddRange(componentSet);
 
-                allPlayers.GetPlayers(playerList, null);
+                allPlayers.GetPlayers(playerList);
                 componentSet.Clear();
 
 
@@ -123,33 +108,26 @@ namespace GuidedMissile.GuidedMissileScript
         }
         public static HashSet<IMyEntity> GetMissilesByTargetGrid(IMyEntity grid)
         {
-            if (!(grid is Sandbox.ModAPI.IMyCubeGrid))
+            if (grid != null && !(grid is Sandbox.ModAPI.IMyCubeGrid))
             {
                 Log.Info("grid wasnt an actual grid!");
                 return null;
             }
-            if (grid != null)
+            //  Log.Info("grid wasnt null");
+            ICollection<MissileDataContainer> mdContainers = GetInstance()._guidedMissileDict.Values;
+
+            HashSet<IMyEntity> missileSet = new HashSet<IMyEntity>();
+
+            foreach (MissileDataContainer container in mdContainers)
             {
 
-                //  Log.Info("grid wasnt null");
-                ICollection<MissileDataContainer> mdContainers = GetInstance()._guidedMissileDict.Values;
-
-                HashSet<IMyEntity> missileSet = new HashSet<IMyEntity>();
-
-                foreach (MissileDataContainer container in mdContainers)
-                {
-
-                    var missile = container.Missile;
-                    var target = container.Target;
-                    if (target.GetTopMostParent() == grid) missileSet.Add(missile);
-                    //           Log.Info("added missile to targetedongridset " + missileSet.Count);
-
-                }
-                return missileSet;
+                var missile = container.Missile;
+                var target = container.Target;
+                if (target.GetTopMostParent() == grid) missileSet.Add(missile);
+                //           Log.Info("added missile to targetedongridset " + missileSet.Count);
 
             }
-            Log.Info("returning null");
-            return null;
+            return missileSet;
         }
         public static bool SetTargetForMissile(IMyEntity missile, IMyEntity target)
         {
@@ -166,14 +144,14 @@ namespace GuidedMissile.GuidedMissileScript
             //  Log.Info("missiledict contains missile and isnt marked for close");
             MissileDataContainer mdC;
             _guidedMissileDict.TryGetValue(missile.EntityId, out mdC);
-            mdC.Target = target;
+            if (mdC != null) mdC.Target = target;
             //  Log.Info("SetTargetForMissile: return true");
             return true;
         }
         public bool AddMissileToDict(IMyEntity missile, IMyEntity target, long safetyTimer, long deathTimer, float turningSpeed, Action<IMyEntity> onExplode, bool hasPhysicsSteering)
         {
             if ((missile == null) || (target == null)) { return false;}
-            if (missile.GetType().ToString() != GuidedMissileSingleton.SandboxGameWeaponsMyMissile) { return false;}
+            if (missile.GetType().ToString() != SandboxGameWeaponsMyMissile) { return false;}
             if (_guidedMissileDict.ContainsKey(missile.EntityId)) { return false;}
             if (IgnoreSet.Contains(missile)) { return false;}
             _guidedMissileDict.Add(missile.EntityId, new MissileDataContainer(missile, target, safetyTimer, deathTimer, turningSpeed, onExplode, hasPhysicsSteering));
@@ -196,10 +174,10 @@ namespace GuidedMissile.GuidedMissileScript
             GuidedMissileControlStationHook controlStationHook = null;
             foreach (MyComponentBase comp in componentContainer)
             {
-                if (comp is GuidedMissileControlStationHook)
+                var hook = comp as GuidedMissileControlStationHook;
+                if (hook != null)
                 {
-                    controlStationHook = (GuidedMissileControlStationHook)comp;
-
+                    controlStationHook = hook;
                 }
             }
             return controlStationHook;
@@ -313,5 +291,21 @@ namespace GuidedMissile.GuidedMissileScript
         }
 
 
+    }
+
+    public class WarningMessageContainer
+    {
+        public long Ticks;
+        public readonly IMyEntity Grid;
+
+        public WarningMessageContainer(IMyEntity grid)
+        {
+            Grid = grid;
+        }
+
+        public void Update()
+        {
+            Ticks++;
+        }
     }
 }

@@ -92,12 +92,12 @@ namespace GuidedMissile.GuidedMissileScript
                 //  Log.Info("message to server sent!");
             }
         }
-        public static bool init { get; private set; }
+        public static bool IsInit { get; private set; }
         public void Init()
         {
 
             Log.Info("Initialized.");
-            init = true;
+            IsInit = true;
             //  _r = new Random(MyAPIGateway.Session.ElapsedPlayTime.Milliseconds);
             ALLOCATE_RANDOM();
         }
@@ -107,12 +107,12 @@ namespace GuidedMissile.GuidedMissileScript
         {
             Log.Info("Mod unloaded.");
             Log.Close();
-            init = false;
+            IsInit = false;
         }
 
         public override void UpdateBeforeSimulation()
         {
-            if (!init)
+            if (!IsInit)
             {
                 if (MyAPIGateway.Session == null)
                     return;

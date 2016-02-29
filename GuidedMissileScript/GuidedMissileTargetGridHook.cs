@@ -127,10 +127,10 @@ namespace GuidedMissile.GuidedMissileScript
 
                 foreach (MyComponentBase comp in componentContainer)
                 {
-                    if (comp is GuidedMissileTargetGridHook)
+                    var hook = comp as GuidedMissileTargetGridHook;
+                    if (hook != null)
                     {
-                        targetGridHook = (GuidedMissileTargetGridHook)comp;
-
+                        targetGridHook = hook;
                     }
                     if (comp is MyCompositeGameLogicComponent)
                     {
@@ -138,23 +138,24 @@ namespace GuidedMissile.GuidedMissileScript
                         targetGridHook = comp.GetAs<GuidedMissileTargetGridHook>();
                     }
                 }
-                return targetGridHook.GetMissileTarget();
+                if (targetGridHook != null) return targetGridHook.GetMissileTarget();
             }
             catch (Exception e)
             {
-                Log.Info("Error during GetMissileTargetForGrid: " + e.ToString());
+                Log.Info("Error during GetMissileTargetForGrid: " + e);
                 return null;
             }
+            return null;
         }
 
         private MyObjectBuilder_EntityBase _objectBuilder;
-        private IMyEntity _missileTarget = null;
+        private IMyEntity _missileTarget;
 
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
-            this._objectBuilder = objectBuilder;
+            _objectBuilder = objectBuilder;
             _removeSet = new HashSet<IMyEntity>();
-            turretTargetDict = new Dictionary<IMyLargeTurretBase, IMyEntity>();
+            _turretTargetDict = new Dictionary<IMyLargeTurretBase, IMyEntity>();
             Entity.NeedsUpdate |= MyEntityUpdateEnum.BEFORE_NEXT_FRAME | MyEntityUpdateEnum.EACH_FRAME | MyEntityUpdateEnum.EACH_10TH_FRAME | MyEntityUpdateEnum.EACH_100TH_FRAME;
             //      Log.Info("We initialized a grid hook");
         }
@@ -164,8 +165,8 @@ namespace GuidedMissile.GuidedMissileScript
             try
             {
 
-                this._missileTarget = target;
-                if (this._missileTarget != null) return true;
+                _missileTarget = target;
+                if (_missileTarget != null) return true;
 
             }
             catch
@@ -183,9 +184,9 @@ namespace GuidedMissile.GuidedMissileScript
         {
             _objectBuilder = null;
             _removeSet = null;
-            turretTargetDict = null;
+            _turretTargetDict = null;
         }
-        private Dictionary<IMyLargeTurretBase, IMyEntity> turretTargetDict;
+        private Dictionary<IMyLargeTurretBase, IMyEntity> _turretTargetDict;
         public override MyObjectBuilder_EntityBase GetObjectBuilder(bool copy = false)
         {
             return copy ? (MyObjectBuilder_EntityBase)_objectBuilder.Clone() : _objectBuilder;
@@ -196,8 +197,8 @@ namespace GuidedMissile.GuidedMissileScript
                 Vector3 turretVector;
                 Vector3 destinationVector;
                 float angle;
-                foreach (IMyLargeTurretBase turretBase in turretTargetDict.Keys) {
-                    if (turretTargetDict.TryGetValue(turretBase, out target)) {
+                foreach (IMyLargeTurretBase turretBase in _turretTargetDict.Keys) {
+                    if (_turretTargetDict.TryGetValue(turretBase, out target)) {
                         turretVector = Vector3.Normalize(Vector3.Transform(turretBase.WorldMatrix.Forward, Matrix.CreateFromYawPitchRoll(turretBase.Azimuth, turretBase.Elevation, 0f)));
                         destinationVector = Vector3.Normalize(target.GetPosition() - turretBase.GetPosition());
                         angle = MyUtils.GetAngleBetweenVectors(turretVector, destinationVector);
@@ -218,7 +219,7 @@ namespace GuidedMissile.GuidedMissileScript
         {
             if (GetMissileTarget() != null)
             {
-                ISet<IMyLargeTurretBase> turretSet = new HashSet<IMyLargeTurretBase>();
+         
                 if (Entity == null) return;
                 // if(target.OwnerId == Entity.OwnerId) return false; //faction check?
                 if (Entity.Hierarchy == null) return;
@@ -227,26 +228,26 @@ namespace GuidedMissile.GuidedMissileScript
 
                 Entity.Hierarchy.GetChildrenRecursive(componentSet);
 
-                foreach (IMyLargeTurretBase dictTurret in turretTargetDict.Keys)
+                foreach (IMyLargeTurretBase dictTurret in _turretTargetDict.Keys)
                 {
                     if (dictTurret.MarkedForClose) _removeSet.Add(dictTurret);
                 }
                 foreach (var key in _removeSet)
                 {
-                    turretTargetDict.Remove((IMyLargeTurretBase)key);
+                    _turretTargetDict.Remove((IMyLargeTurretBase)key);
                 }
                 _removeSet.Clear();
 
                 if ((GetMissileTarget() == null) || (GetMissileTarget().MarkedForClose))
                 {
-                    foreach (var localTurret in turretTargetDict.Keys)
+                    foreach (var localTurret in _turretTargetDict.Keys)
                     {
                         if ((localTurret != null) && (!localTurret.MarkedForClose))
                         {
                             localTurret.ResetTargetingToDefault();
                         }
                     }
-                    turretTargetDict.Clear();
+                    _turretTargetDict.Clear();
                     return;
                 }
 
@@ -263,7 +264,7 @@ namespace GuidedMissile.GuidedMissileScript
                         if (turret.AIEnabled)
                         {
                             IMyEntity turretTarget;
-                            if (turretTargetDict.TryGetValue(turret, out turretTarget))
+                            if (_turretTargetDict.TryGetValue(turret, out turretTarget))
                             {
 
                                 if ((turretTarget != null) && (turretTarget.GetTopMostParent() == targetGrid))
@@ -278,13 +279,13 @@ namespace GuidedMissile.GuidedMissileScript
                                         var randomTarget = GetRandomBlockInGrid(GetMissileTarget().GetTopMostParent());
                                         turret.TrackTarget(randomTarget);
                                         //  Log.Info("Set Target for Turret " + ((Sandbox.ModAPI.IMyCubeBlock)turret).DisplayName);
-                                        if (turretTargetDict.ContainsKey(turret))
+                                        if (_turretTargetDict.ContainsKey(turret))
                                         {
-                                            turretTargetDict.Remove(turret);
-                                            turretTargetDict.Add(turret, randomTarget);
+                                            _turretTargetDict.Remove(turret);
+                                            _turretTargetDict.Add(turret, randomTarget);
                                         }
                                         else {
-                                            turretTargetDict.Add(turret, randomTarget);
+                                            _turretTargetDict.Add(turret, randomTarget);
                                         }
 
 
@@ -297,14 +298,14 @@ namespace GuidedMissile.GuidedMissileScript
                                     var randomTarget = GetRandomBlockInGrid(GetMissileTarget().GetTopMostParent());
                                     turret.TrackTarget(randomTarget);
                                     //    Log.Info("Set Target for Turret " + ((Sandbox.ModAPI.IMyCubeBlock)turret).DisplayName);
-                                    if (turretTargetDict.ContainsKey(turret))
+                                    if (_turretTargetDict.ContainsKey(turret))
                                     {
-                                        turretTargetDict.Remove(turret);
-                                        turretTargetDict.Add(turret, randomTarget);
+                                        _turretTargetDict.Remove(turret);
+                                        _turretTargetDict.Add(turret, randomTarget);
                                     }
                                     else
                                     {
-                                        turretTargetDict.Add(turret, randomTarget);
+                                        _turretTargetDict.Add(turret, randomTarget);
                                     }
                                 }
                             }

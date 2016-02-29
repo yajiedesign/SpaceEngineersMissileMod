@@ -73,7 +73,7 @@ namespace GuidedMissile.GuidedMissileScript
 
         protected HashSet<IMyEntity> GetMissilesInBoundingBox()
         {
-            BoundingBoxD box = (BoundingBoxD)Entity.WorldAABB.GetInflated(2.0);
+            BoundingBoxD box = Entity.WorldAABB.GetInflated(2.0);
             //  box = box.Translate(Entity.LocalMatrix.Forward * 0.2f);
             //Log.Info("Bounding box in GetMissilesInBoundingBox for "+ GetType()+ " is " + box.Size);
             List<IMyEntity> entitiesFound = MyAPIGateway.Entities.GetEntitiesInAABB(ref box);
@@ -124,7 +124,7 @@ namespace GuidedMissile.GuidedMissileScript
                 }
             }
             var gun = Entity as IMyUserControllableGun;
-            if ((underControl) && (gun.IsShooting))
+            if (gun != null && ((underControl) && (gun.IsShooting)))
             {
                 foreach (IMyEntity missile in GetMissilesInBoundingBox())
                 {

@@ -188,7 +188,7 @@ namespace GuidedMissile.GuidedMissileScript
                 List<IMyEntity> componentList = new List<IMyEntity>();
                 componentList.AddRange(componentSet);
 
-                allPlayers.GetPlayers(playerList, null);
+                allPlayers.GetPlayers(playerList);
                 componentSet.Clear();
 
 

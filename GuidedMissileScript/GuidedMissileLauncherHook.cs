@@ -59,7 +59,7 @@ namespace GuidedMissile.GuidedMissileScript
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
             _lastIsShooting = false;
-            this.ObjectBuilder = objectBuilder;
+            ObjectBuilder = objectBuilder;
             Entity.NeedsUpdate |= MyEntityUpdateEnum.BEFORE_NEXT_FRAME | MyEntityUpdateEnum.EACH_FRAME | MyEntityUpdateEnum.EACH_10TH_FRAME;
             // BoundingBoxD box = (BoundingBoxD)Entity.WorldAABB.GetInflated(BB_INFLATE_AMOUNT);
             //     Log.Info("Bounding box for "+GetType()+": " + box.Size);
@@ -76,7 +76,7 @@ namespace GuidedMissile.GuidedMissileScript
         }
         protected virtual HashSet<IMyEntity> GetMissilesInBoundingBox()
         {
-            BoundingBoxD box = (BoundingBoxD)Entity.WorldAABB.GetInflated(BbInflateAmount);
+            BoundingBoxD box = Entity.WorldAABB.GetInflated(BbInflateAmount);
             if (Math.Abs(BoundingBoxOffsetFront) > double.Epsilon) box = box.Translate(Entity.LocalMatrix.Forward * (float)BoundingBoxOffsetFront);
             //Log.Info("Bounding box in GetMissilesInBoundingBox for "+ GetType()+ " is " + box.Size);
             List<IMyEntity> entitiesFound = MyAPIGateway.Entities.GetEntitiesInAABB(ref box);
@@ -110,12 +110,9 @@ namespace GuidedMissile.GuidedMissileScript
             if (missileSet.Count == 0) return;
 
             Action<IMyEntity> onExplode = OnExplodeMissile; //Hook for implementation of abstract method
-            IMyEntity target = null;
-
-
             foreach (IMyEntity ent in missileSet)
             {
-                target = GetTarget(ent);
+                var target = GetTarget(ent);
                 if (target != null) GuidedMissileSingleton.GetInstance().AddMissileToDict(ent, target, SafetyTimer, DeathTimer, TurningSpeed, onExplode, HasPhysicsSteering);
             }
         }
@@ -131,12 +128,12 @@ namespace GuidedMissile.GuidedMissileScript
             try
             {
                 var gun = Entity as IMyUserControllableGun;
-                if (gun.IsShooting != _lastIsShooting)
+                if (gun != null && gun.IsShooting != _lastIsShooting)
                 {
                     Log.Info("is shooting is " + gun.IsShooting + " for " + ((Sandbox.ModAPI.IMyTerminalBlock)Entity).CustomName);
                     _lastIsShooting = gun.IsShooting;
                 }
-                if (gun.IsShooting)
+                if (gun != null && gun.IsShooting)
                 {
                     GuideMissiles(GetMissilesInBoundingBox());
                 }
@@ -146,7 +143,7 @@ namespace GuidedMissile.GuidedMissileScript
             catch (Exception e)
             {
                 Log.Error(e);
-                MyAPIGateway.Utilities.ShowNotification("" + e.ToString(), 1000, MyFontEnum.Red);
+                MyAPIGateway.Utilities.ShowNotification("" + e, 1000, MyFontEnum.Red);
             }
         }
     }

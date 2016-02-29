@@ -188,7 +188,7 @@ namespace GuidedMissile.GuidedMissileScript
                 float maxRadVelocity = MathHelper.ToRadians(_turningSpeed);
                 float angle = MyUtils.GetAngleBetweenVectorsAndNormalise(Missile.WorldMatrix.Forward, targetDirection);
                 // Log.Info("angle = " + MathHelper.ToDegrees(angle));
-                float turnPercent = 0f;
+                float turnPercent;
 
                 if (Math.Abs(angle) < Double.Epsilon)
                 {

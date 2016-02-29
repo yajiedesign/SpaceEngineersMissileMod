@@ -118,7 +118,7 @@ namespace GuidedMissile.GuidedMissileScript
                 IMyPlayerCollection allPlayers = MyAPIGateway.Players;
                 IMyPlayer currentPlayer = null;
                 List<IMyPlayer> playerList = new List<IMyPlayer>();
-                allPlayers.GetPlayers(playerList, null);
+                allPlayers.GetPlayers(playerList);
                 // Log.Info("update manually:");
                 //   Log.Info("" + allPlayers + currentPlayer + playerList);
                 foreach (IMyPlayer player in playerList)
@@ -204,7 +204,7 @@ namespace GuidedMissile.GuidedMissileScript
                       {
                           SetPlayerStatus(localPlayerEntered);
                       } **/
-                if (localPlayerEntered == true)
+                if (localPlayerEntered)
                 {
                     if (success) MyAPIGateway.Utilities.ShowNotification(targetName + " was set as missile target!", 1000, MyFontEnum.Red);
                 }
@@ -212,7 +212,7 @@ namespace GuidedMissile.GuidedMissileScript
             catch (Exception e)
             {
                 Log.Error(e);
-                MyAPIGateway.Utilities.ShowNotification("" + e.ToString(), 1000, MyFontEnum.Red);
+                MyAPIGateway.Utilities.ShowNotification("" + e, 1000, MyFontEnum.Red);
             }
         }
     }
