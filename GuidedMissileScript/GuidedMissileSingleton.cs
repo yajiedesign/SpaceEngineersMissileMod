@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sandbox.ModAPI;
 using Sandbox.ModAPI.Ingame;
 using VRage.Game;
@@ -255,6 +256,7 @@ namespace GuidedMissile.GuidedMissileScript
             delFromWarningSet.Clear();
 
             Dictionary<long, GuidedMissileDataContainer>.KeyCollection keyCollection = _guidedMissileDict.Keys;
+            var missileCollection = _guidedMissileDict.Values.Select(s => s.Missile).ToList();
             foreach (long key in keyCollection)
             {
                 GuidedMissileDataContainer guidedMissileData;
@@ -267,7 +269,7 @@ namespace GuidedMissile.GuidedMissileScript
                     }
                     else
                     {
-                        guidedMissileData.Update();
+                        guidedMissileData.Update(missileCollection);
                     }
                 }
             }

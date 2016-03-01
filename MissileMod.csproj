@@ -78,6 +78,7 @@
     <Compile Include="GuidedMissileScript\Log.cs" />
     <Compile Include="GuidedMissileScript\GuidedMissileDataContainer.cs" />
     <Compile Include="GuidedMissileScript\MissileLauncherHookImpementations.cs" />
+    <Compile Include="GuidedMissileScript\ModDebugger.cs" />
     <Compile Include="GuidedMissileScript\ZJBitConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

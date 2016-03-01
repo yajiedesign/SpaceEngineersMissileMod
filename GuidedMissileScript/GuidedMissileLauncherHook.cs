@@ -92,8 +92,6 @@ namespace GuidedMissile.GuidedMissileScript
                     if ((ent.Physics.LinearVelocity - Entity.GetTopMostParent().Physics.LinearVelocity).Length() < MaxSpeedForGuidance)
                     {
                         entitySet.Add(ent);
-
-
                     }
                     else {
                         Log.Info("Missile was too fast! Adding to ignoreSet");

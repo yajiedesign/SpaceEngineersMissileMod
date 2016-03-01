@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using Sandbox.Game.Entities;
+using Sandbox.ModAPI;
 using VRage.ModAPI;
 using VRage.Utils;
 using VRageMath;
@@ -97,11 +100,11 @@ namespace GuidedMissile.GuidedMissileScript
             return false;
         }
 
-        public void Update()
+        public void Update(List<IMyEntity> missileCollection)
         {
             if (SafetyTimerIsOver())
             {
-
+                ModDebugger.Launch();
                 //      if (Missile.Physics.Flags != RigidBodyFlag.RBF_BULLET) Missile.Physics.Flags = RigidBodyFlag.RBF_BULLET;
                 //     float TURNING_SPEED = 0.1f;
                 //   float FACTOR = 2f;
@@ -185,8 +188,14 @@ namespace GuidedMissile.GuidedMissileScript
 
                 Vector3 targetDirection = Vector3.Normalize(targetPoint - Missile.GetPosition());
 
+
+
                 float maxRadVelocity = MathHelper.ToRadians(_turningSpeed);
-                float angle = MyUtils.GetAngleBetweenVectorsAndNormalise(Missile.WorldMatrix.Forward, targetDirection);
+                float angle = MyUtils.GetAngleBetweenVectorsAndNormalise(Missile.WorldMatrix.Forward,
+                    targetDirection);
+
+
+
                 // Log.Info("angle = " + MathHelper.ToDegrees(angle));
                 float turnPercent;
 
@@ -204,26 +213,50 @@ namespace GuidedMissile.GuidedMissileScript
                 }
 
 
-                Matrix targetMatrix = Matrix.CreateWorld(Missile.GetPosition(), targetDirection, Vector3D.CalculatePerpendicularVector(targetDirection));//Matrix.CreateFromYawPitchRoll(0f, (float)Math.PI*0.5f, 0f)));
+                Matrix targetMatrix = Matrix.CreateWorld(Missile.GetPosition(), targetDirection,
+                    Vector3D.CalculatePerpendicularVector(targetDirection));
+                //Matrix.CreateFromYawPitchRoll(0f, (float)Math.PI*0.5f, 0f)));
 
                 var slerpMatrix = Matrix.Slerp(Missile.WorldMatrix, targetMatrix, turnPercent);
 
-                Missile.SetWorldMatrix(slerpMatrix);
+                RayD nextTargetLineD = new RayD(Missile.GetPosition(), slerpMatrix.Forward);
 
-                if (_hasPhysicsSteering)
+                bool iswait = false;
+                foreach (var othermissile in missileCollection)
+                {
+                    if (othermissile.EntityId == Missile.EntityId)
+                    {
+                        continue;
+                    }
+                    if (nextTargetLineD.Intersects(othermissile.WorldVolume) != null)
+                    {
+
+                        iswait = true;
+                    }
+                }
+
+                if (iswait == false)
                 {
 
-                    var linVel = Missile.Physics.LinearVelocity;
-                    var linSpeed = linVel.Length();
-                    Missile.Physics.LinearVelocity = 0.98f * linVel + 0.02f * Missile.WorldMatrix.Forward * linSpeed;
+
+                    Missile.SetWorldMatrix(slerpMatrix);
+
+                    if (_hasPhysicsSteering)
+                    {
+
+                        var linVel = Missile.Physics.LinearVelocity;
+                        var linSpeed = linVel.Length();
+                        Missile.Physics.LinearVelocity = 0.98f * linVel + 0.02f * Missile.WorldMatrix.Forward * linSpeed;
+
+                    }
+                    else
+                    {
+                        Vector3 linVel = Missile.Physics.LinearVelocity;
+                        Missile.Physics.LinearVelocity = Vector3.Normalize(Missile.WorldMatrix.Forward) * linVel.Length();
+                    }
+
 
                 }
-                else {
-                    Vector3 linVel = Missile.Physics.LinearVelocity;
-                    Missile.Physics.LinearVelocity = Vector3.Normalize(Missile.WorldMatrix.Forward) * linVel.Length();
-                }
-
-
             }
             else {
                 //     if (Missile.Physics.Flags == RigidBodyFlag.RBF_BULLET) Missile.Physics.Flags = RigidBodyFlag.RBF_BULLET & RigidBodyFlag.RBF_DISABLE_COLLISION_RESPONSE;
