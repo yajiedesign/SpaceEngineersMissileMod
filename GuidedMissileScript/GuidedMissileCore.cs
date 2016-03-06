@@ -115,7 +115,7 @@ namespace GuidedMissile.GuidedMissileScript
             if (!IsInit)
             {
                 if (MyAPIGateway.Session == null)
-                    return;
+                { return;}
 
                 Init();
             }
@@ -139,8 +139,7 @@ namespace GuidedMissile.GuidedMissileScript
         }
         public static IMyEntity GetClosestTargetAlongRay(Ray ray, double maxDistance, double deviation, IMyEntity ignoreEntity)
         {
-            var set = new HashSet<IMyEntity>();
-            set.Add(ignoreEntity);
+            var set = new HashSet<IMyEntity> {ignoreEntity};
             return GetClosestTargetAlongRay(ray, maxDistance, deviation, set);
         }
 
@@ -148,40 +147,44 @@ namespace GuidedMissile.GuidedMissileScript
         {
             if (Math.Abs(deviation) < double.Epsilon) deviation = 7.5;
             Ray directionRay = ray;
-            BoundingSphereD largeSphere = new BoundingSphereD(directionRay.Position, maxDistance);
 
-            BoundingBox targetBox;
-            float lowestDistance = Single.MaxValue;
+            float baseDistance = 100.0f;
+            float lowestDistance = float.MaxValue;
             float safetyDistance = (float)(deviation * 1.33);
-            float? distance = 0;
             IMyEntity bestTarget = null;
             HashSet<IMyEntity> foundEntitySet = new HashSet<IMyEntity>();
 
-            for (float i = (float)(deviation * 1.33); i < maxDistance; i += (float)(deviation * 1.33))
+            for (float i = (float)(deviation * 1.33); i < maxDistance; i += (float)((deviation / 2) / baseDistance * i))
             {
-                largeSphere = new BoundingSphereD(directionRay.Position + i * directionRay.Direction, deviation);
+                var largeSphere = new BoundingSphereD(directionRay.Position + i * directionRay.Direction, (deviation / 2) / baseDistance * i * 2);
                 foundEntitySet.UnionWith(MyAPIGateway.Entities.GetEntitiesInSphere(ref largeSphere));
             }
 
             foreach (IMyEntity foundEntity in foundEntitySet)
             {
                 // Log.Info("foundentityset.count = " + foundEntitySet.Count);
-                targetBox = (BoundingBox)foundEntity.GetTopMostParent().WorldAABB;
-                directionRay.Intersects(ref targetBox, out distance);
-                if (distance != null)
+                var targetBox =
+                    BoundingSphere.CreateFromBoundingBox((BoundingBox) foundEntity.GetTopMostParent().WorldAABB);
+                var posDistance = Vector3.Distance(targetBox.Center, ray.Position);
+                if (posDistance >= baseDistance)
                 {
-                    //  Log.Info("distance wasnt zero for: " + foundEntity.GetType().ToString());
-                    // if ((float)distance < lowestDistance) Log.Info("distance < lowest distance for " + foundEntity.EntityId);
-                    //   if (foundEntity.GetTopMostParent().GetType().ToString() == "Sandbox.Game.Entities.MyCubeGrid") Log.Info("target is in a cubegrid  " + foundEntity.EntityId);
-                    //  if ((float)distance > safetyDistance) Log.Info("distance > safety distance for " + foundEntity.EntityId);
-                    if (((float)distance < lowestDistance) && ((float)distance > safetyDistance) && (foundEntity.GetTopMostParent().GetType().ToString() == "Sandbox.Game.Entities.MyCubeGrid"))
+                    targetBox.Radius *= posDistance / baseDistance;
+                }
+
+                var direction = targetBox.Center - ray.Position;
+                var angle = Math.Abs(Math.Acos(ray.Direction.Dot(direction) / (ray.Direction.Length() * direction.Length())));
+
+                //  Log.Info("distance wasnt zero for: " + foundEntity.GetType().ToString());
+                //  if ((float)distance < lowestDistance) Log.Info("distance < lowest distance for " + foundEntity.EntityId);
+                //  if (foundEntity.GetTopMostParent().GetType().ToString() == "Sandbox.Game.Entities.MyCubeGrid") Log.Info("target is in a cubegrid  " + foundEntity.EntityId);
+                //  if ((float)distance > safetyDistance) Log.Info("distance > safety distance for " + foundEntity.EntityId);
+                if (((float)angle < lowestDistance) && ((float)posDistance > safetyDistance) && (foundEntity.GetTopMostParent().GetType().ToString() == "Sandbox.Game.Entities.MyCubeGrid"))
+                {
+                    if (!ignoreSet.Contains(foundEntity))
                     {
-                        if (!ignoreSet.Contains(foundEntity))
-                        {
-                            bestTarget = foundEntity;
-                            lowestDistance = (float)distance;
-                            //  Log.Info("we found a fitting target: " + foundEntity.DisplayName);
-                        }
+                        bestTarget = foundEntity;
+                        lowestDistance = (float)angle;
+                        //  Log.Info("we found a fitting target: " + foundEntity.DisplayName);
                     }
                 }
             }
