@@ -27,6 +27,7 @@ using VRage;
 using VRage.Common.Utils;
 using VRage.Game;
 using VRage.Game.Components;
+using VRage.Game.Entity;
 using VRage.Input;
 using VRage.ModAPI;
 using VRage.ObjectBuilders;
@@ -60,7 +61,7 @@ namespace GuidedMissile.GuidedMissileScript
         {
             _lastIsShooting = false;
             ObjectBuilder = objectBuilder;
-            Entity.NeedsUpdate |= MyEntityUpdateEnum.BEFORE_NEXT_FRAME | MyEntityUpdateEnum.EACH_FRAME | MyEntityUpdateEnum.EACH_10TH_FRAME;
+            Entity.NeedsUpdate |= MyEntityUpdateEnum.BEFORE_NEXT_FRAME | MyEntityUpdateEnum.EACH_FRAME | MyEntityUpdateEnum.EACH_10TH_FRAME | MyEntityUpdateEnum.EACH_100TH_FRAME;
             // BoundingBoxD box = (BoundingBoxD)Entity.WorldAABB.GetInflated(BB_INFLATE_AMOUNT);
             //     Log.Info("Bounding box for "+GetType()+": " + box.Size);
         }
@@ -126,6 +127,7 @@ namespace GuidedMissile.GuidedMissileScript
             try
             {
                 var gun = Entity as IMyUserControllableGun;
+
                 if (gun != null && gun.IsShooting != _lastIsShooting)
                 {
                     Log.Info("is shooting is " + gun.IsShooting + " for " + ((Sandbox.ModAPI.IMyTerminalBlock)Entity).CustomName);
@@ -135,7 +137,7 @@ namespace GuidedMissile.GuidedMissileScript
                 {
                     GuideMissiles(GetMissilesInBoundingBox());
                 }
-
+  
 
             }
             catch (Exception e)
@@ -144,6 +146,8 @@ namespace GuidedMissile.GuidedMissileScript
                 MyAPIGateway.Utilities.ShowNotification("" + e, 1000, MyFontEnum.Red);
             }
         }
+
+
     }
 }
 

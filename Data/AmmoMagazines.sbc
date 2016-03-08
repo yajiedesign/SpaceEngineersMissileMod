@@ -62,7 +62,7 @@
    <AmmoMagazine>
       <Id>
         <TypeId>AmmoMagazine</TypeId>
-        <SubtypeId>GuidedMissileTargeterAmmo</SubtypeId>
+        <SubtypeId>GuidedMissileTargeterAmmoMagazine</SubtypeId>
       </Id>
       <DisplayName>Target Painter Power Cell</DisplayName>
       <Icon>Textures\GUI\Icons\ammo\Ammo_Box.dds</Icon>

@@ -24,10 +24,12 @@ using System.Threading.Tasks;
 using System.Timers;
 using VRage;
 using VRage.Common.Utils;
+using VRage.Game;
 using VRage.Game.Components;
 using VRage.Input;
 using VRage.ModAPI;
 using VRage.ObjectBuilders;
+using VRage.Utils;
 using VRageMath;
 
 namespace GuidedMissile.GuidedMissileScript
@@ -98,9 +100,18 @@ namespace GuidedMissile.GuidedMissileScript
 
             Log.Info("Initialized.");
             IsInit = true;
+
+             var temp = MyDefinitionManager.Static.GetAllDefinitions()
+                .FirstOrDefault(w => w.Id.SubtypeId == MyStringHash.GetOrCompute("GuidedMissileTargeterAmmoMagazine"));
+            if (temp != null)
+            {
+                GuidedMissileTargeterAmmo = temp.Id;
+            }
             //  _r = new Random(MyAPIGateway.Session.ElapsedPlayTime.Milliseconds);
             ALLOCATE_RANDOM();
         }
+
+        public static MyDefinitionId? GuidedMissileTargeterAmmo { get; set; }
 
 
         protected override void UnloadData()

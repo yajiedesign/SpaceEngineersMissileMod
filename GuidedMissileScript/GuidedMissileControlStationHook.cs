@@ -27,6 +27,7 @@ using VRage;
 using VRage.Common.Utils;
 using VRage.Game;
 using VRage.Game.Components;
+using VRage.Game.Entity;
 using VRage.Input;
 using VRage.ModAPI;
 using VRage.ObjectBuilders;
@@ -56,6 +57,7 @@ namespace GuidedMissile.GuidedMissileScript
                 Log.Info("Entity: " + Entity);
             }
             Entity.NeedsUpdate |= MyEntityUpdateEnum.EACH_10TH_FRAME;
+            Entity.NeedsUpdate |= MyEntityUpdateEnum.EACH_100TH_FRAME;
         }
 
         public override void Close()
@@ -155,7 +157,7 @@ namespace GuidedMissile.GuidedMissileScript
                     //    Log.Info("currentplayer wasnt null");
                     //   if (currentPlayer.Controller.ControlledEntity.Entity != null) pId = currentPlayer.Controller.ControlledEntity.Entity.ToString();
 
-                    BoundingSphereD sphere = new BoundingSphereD(Entity.GetPosition() + Vector3.Normalize(Entity.WorldMatrix.Up) * 2, 5);
+                    BoundingSphereD sphere = new BoundingSphereD(Entity.GetPosition() + Vector3.Normalize(Entity.WorldMatrix.Up) * 2, 25);
 
                     // MyAPIGateway.Entities.EnableEntityBoundingBoxDraw(Entity, true, new Vector4(255, 100, 100, 100), 0.01f, null);
                     List<IMyEntity> entitiesFound = MyAPIGateway.Entities.GetEntitiesInSphere(ref sphere);
@@ -214,6 +216,24 @@ namespace GuidedMissile.GuidedMissileScript
                 Log.Error(e);
                 MyAPIGateway.Utilities.ShowNotification("" + e, 1000, MyFontEnum.Red);
             }
+        }
+
+        public override void UpdateBeforeSimulation100()
+        {
+            var myEntity = Entity as MyEntity;
+            var inv0 = myEntity.GetInventory(0);
+
+            if (GuidedMissileCore.GuidedMissileTargeterAmmo.HasValue)
+            {
+                if (inv0.GetItemAmount(GuidedMissileCore.GuidedMissileTargeterAmmo.Value) < 10)
+                {
+                    MyObjectBuilder_Base myObjectBuilderPhysicalObject =
+                      (MyObjectBuilder_Base)MyObjectBuilderSerializer.CreateNewObject(GuidedMissileCore.GuidedMissileTargeterAmmo.Value);
+                    inv0.AddItems(10, myObjectBuilderPhysicalObject);
+                }
+            }
+
+            base.UpdateBeforeSimulation100();
         }
     }
 

@@ -78,19 +78,16 @@
     <Blueprint>
       <Id>
         <TypeId>BlueprintDefinition</TypeId>
-        <SubtypeId>GuidedMissileTargeterAmmo</SubtypeId>
+        <SubtypeId>GuidedMissileTargeterBlueprint</SubtypeId>
       </Id>
       <DisplayName>Target Painter Power Cell 100</DisplayName>
       <Icon>Textures\GUI\Icons\ammo\Ammo_Box.dds</Icon>
       <Prerequisites>
-        <Item Amount="100" TypeId="Ingot" SubtypeId="Iron" />
-        <Item Amount="100" TypeId="Ingot" SubtypeId="Nickel" />
-        <Item Amount="10" TypeId="Ingot" SubtypeId="Uranium" />
-        <Item Amount="5" TypeId="Ingot" SubtypeId="Platinum" />
-        <Item Amount="10" TypeId="Ingot" SubtypeId="Silicon" />
+        <Item Amount="0" TypeId="Ingot" SubtypeId="Iron" />
       </Prerequisites>
-      <Result Amount="1" TypeId="AmmoMagazine" SubtypeId="GuidedMissileTargeterAmmo" />
+      <Result Amount="1" TypeId="AmmoMagazine" SubtypeId="GuidedMissileTargeterAmmoMagazine" />
       <BaseProductionTimeInSeconds>50</BaseProductionTimeInSeconds>
+      
     </Blueprint>
   </Blueprints>
 </Definitions>

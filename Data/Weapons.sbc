@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Weapons>
-	<Weapon>
+    <Weapon>
       <Id>
         <TypeId>WeaponDefinition</TypeId>
         <SubtypeId>CruiseMissileLauncher</SubtypeId>
@@ -11,10 +11,10 @@
       <NoAmmoSoundName>WepShipGatlingNoAmmo</NoAmmoSoundName>
 
       <AmmoMagazines>
-		<AmmoMagazine Subtype="CruiseMissile" />
+        <AmmoMagazine Subtype="CruiseMissile" />
       </AmmoMagazines>
     </Weapon>
-    
+
     <Weapon>
       <Id>
         <TypeId>WeaponDefinition</TypeId>
@@ -28,8 +28,8 @@
         <AmmoMagazine Subtype="CatapultTorpedo" />
       </AmmoMagazines>
     </Weapon>
-    
-	<Weapon>
+
+    <Weapon>
       <Id>
         <TypeId>WeaponDefinition</TypeId>
         <SubtypeId>SidewinderMissileLauncher</SubtypeId>
@@ -39,10 +39,10 @@
       <NoAmmoSoundName>WepShipGatlingNoAmmo</NoAmmoSoundName>
 
       <AmmoMagazines>
-		<AmmoMagazine Subtype="SidewinderMissile" />
+        <AmmoMagazine Subtype="SidewinderMissile" />
       </AmmoMagazines>
     </Weapon>
-    
+
     <Weapon>
       <Id>
         <TypeId>WeaponDefinition</TypeId>
@@ -56,7 +56,7 @@
         <AmmoMagazine Subtype="FlareProjectile" />
       </AmmoMagazines>
     </Weapon>
-    
+
     <Weapon>
       <Id>
         <TypeId>WeaponDefinition</TypeId>
@@ -69,9 +69,9 @@
       <MuzzleFlashLifeSpan>20</MuzzleFlashLifeSpan>
 
       <AmmoMagazines>
-        <AmmoMagazine Subtype="GuidedMissileTargeterAmmo" />
+        <AmmoMagazine Subtype="GuidedMissileTargeterAmmoMagazine" />
       </AmmoMagazines>
-	</Weapon>
+    </Weapon>
     <Weapon>
       <Id>
         <TypeId>WeaponDefinition</TypeId>
@@ -84,7 +84,7 @@
       <MuzzleFlashLifeSpan>20</MuzzleFlashLifeSpan>
 
       <AmmoMagazines>
-        <AmmoMagazine Subtype="GuidedMissileTargeterAmmo" />
+        <AmmoMagazine Subtype="GuidedMissileTargeterAmmoMagazine" />
       </AmmoMagazines>
     </Weapon>
   </Weapons>

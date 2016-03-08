@@ -27,6 +27,7 @@ using VRage;
 using VRage.Common.Utils;
 using VRage.Game;
 using VRage.Game.Components;
+using VRage.Game.Entity;
 using VRage.Input;
 using VRage.ModAPI;
 using VRage.ObjectBuilders;
@@ -46,6 +47,7 @@ namespace GuidedMissile.GuidedMissileScript
             _objectBuilder = objectBuilder;
 
             Entity.NeedsUpdate |= MyEntityUpdateEnum.EACH_10TH_FRAME;
+            Entity.NeedsUpdate |= MyEntityUpdateEnum.EACH_100TH_FRAME;
         }
         protected IMyEntity GetTarget(IMyEntity missile)
         {
@@ -140,6 +142,24 @@ namespace GuidedMissile.GuidedMissileScript
             }
             base.UpdateBeforeSimulation();
         }
+        public override void UpdateBeforeSimulation100()
+        {
+            ModDebugger.Launch();
+            var myEntity = Entity as MyEntity;
+            var inv0 = myEntity.GetInventory(0);
 
+            if (GuidedMissileCore.GuidedMissileTargeterAmmo.HasValue)
+            {
+                var items = inv0.GetItems();
+                if (inv0.GetItemAmount(GuidedMissileCore.GuidedMissileTargeterAmmo.Value) < 10)
+                {
+                    MyObjectBuilder_Base myObjectBuilderPhysicalObject =
+                      (MyObjectBuilder_Base)MyObjectBuilderSerializer.CreateNewObject(GuidedMissileCore.GuidedMissileTargeterAmmo.Value);
+                    inv0.AddItems(10, myObjectBuilderPhysicalObject);
+                }
+            }
+
+            base.UpdateBeforeSimulation100();
+        }
     }
 }

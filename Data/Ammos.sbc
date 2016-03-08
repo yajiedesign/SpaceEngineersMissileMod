@@ -112,7 +112,7 @@
         <MissileAcceleration>1</MissileAcceleration>
         <MissileInitialSpeed>1000</MissileInitialSpeed>
         <MissileSkipAcceleration>true</MissileSkipAcceleration>
-        <MissileExplosionDamage>0</MissileExplosionDamage> 
+        <MissileExplosionDamage>0</MissileExplosionDamage>
       </MissileProperties>
     </Ammo>
   </Ammos>

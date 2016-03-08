@@ -5,16 +5,16 @@
 
     <Entry Class="Components" BlueprintSubtypeId="CruiseMissile" />
     <Entry Class="Ammo" BlueprintSubtypeId="CruiseMissile" />
-    
+
     <Entry Class="Components" BlueprintSubtypeId="CatapultTorpedo" />
     <Entry Class="Ammo" BlueprintSubtypeId="CatapultTorpedo" />
-    
-	<Entry Class="Components" BlueprintSubtypeId="SidewinderMissile" />
+
+    <Entry Class="Components" BlueprintSubtypeId="SidewinderMissile" />
     <Entry Class="Ammo" BlueprintSubtypeId="SidewinderMissile" />
 
     <Entry Class="Components" BlueprintSubtypeId="FlareProjectile" />
     <Entry Class="Ammo" BlueprintSubtypeId="FlareProjectile" />
-	
+
     <Entry Class="Components" BlueprintSubtypeId="GuidedMissileTargeterAmmo" />
     <Entry Class="Ammo" BlueprintSubtypeId="GuidedMissileTargeterAmmo" />
 

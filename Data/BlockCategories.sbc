@@ -1,13 +1,14 @@
+<?xml version="1.0"?>
 <Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <CategoryClasses>
-    
+
     <Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
       <Id>
         <TypeId>GuiBlockCategoryDefinition</TypeId>
         <SubtypeId/>
       </Id>
       <DisplayName>Guided Missile Systems</DisplayName>
-   
+
       <Name>GuidedMissileMod</Name>
       <SearchBlocks>true</SearchBlocks>
       <IsShipCategory>true</IsShipCategory>
@@ -22,7 +23,7 @@
 
       </ItemIds>
     </Category>
-    
+
     <Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
       <Id>
         <TypeId>GuiBlockCategoryDefinition</TypeId>
@@ -34,32 +35,32 @@
       <IsShipCategory>true</IsShipCategory>
       <IsBlockCategory>true</IsBlockCategory>
       <ItemIds>
-		<string>SmallMissileLauncher/CruiseMissileLauncher</string>
-    <string>SmallMissileLauncher/CatapultTorpedoLauncher</string>
-		<string>SmallMissileLauncher/SidewinderSmallMissileLauncher</string>
+        <string>SmallMissileLauncher/CruiseMissileLauncher</string>
+        <string>SmallMissileLauncher/CatapultTorpedoLauncher</string>
+        <string>SmallMissileLauncher/SidewinderSmallMissileLauncher</string>
         <string>SmallMissileLauncher/FixedTargetPainter</string>
         <string>SmallMissileLauncher/FlareLauncher</string>
       </ItemIds>
     </Category>
-  
-  <Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
-	  <Id>
-		<TypeId>GuiBlockCategoryDefinition</TypeId>
-		<SubtypeId/>
-	  </Id>
-	  <DisplayName>DisplayName_Category_ShipWeaponsTools</DisplayName>
-	  <Name>WeaponsTools</Name>
-	  <ItemIds>
-		  <string>SmallMissileLauncher/CruiseMissileLauncher</string>
-      <string>SmallMissileLauncher/CatapultTorpedoLauncher</string>
-		  <string>SmallMissileLauncher/SidewinderSmallMissileLauncher</string>
-      <string>SmallMissileLauncher/FlareLauncher</string>
-      <string>SmallMissileLauncher/FixedTargetPainter</string>
 
-    </ItemIds>  
-  </Category>
-	  
-	<Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
+    <Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
+      <Id>
+        <TypeId>GuiBlockCategoryDefinition</TypeId>
+        <SubtypeId/>
+      </Id>
+      <DisplayName>DisplayName_Category_ShipWeaponsTools</DisplayName>
+      <Name>WeaponsTools</Name>
+      <ItemIds>
+        <string>SmallMissileLauncher/CruiseMissileLauncher</string>
+        <string>SmallMissileLauncher/CatapultTorpedoLauncher</string>
+        <string>SmallMissileLauncher/SidewinderSmallMissileLauncher</string>
+        <string>SmallMissileLauncher/FlareLauncher</string>
+        <string>SmallMissileLauncher/FixedTargetPainter</string>
+
+      </ItemIds>
+    </Category>
+
+    <Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
       <Id>
         <TypeId>GuiBlockCategoryDefinition</TypeId>
         <SubtypeId/>
@@ -67,11 +68,12 @@
       <DisplayName>DisplayName_Category_SmallBlocks</DisplayName>
       <Name>SmallBlocks</Name>
       <ItemIds>
-			<string>SmallMissileLauncher/SidewinderSmallMissileLauncher</string>
+        <string>SmallMissileLauncher/SidewinderSmallMissileLauncher</string>
         <string>SmallMissileLauncher/FlareLauncher</string>
-        
+
       </ItemIds>
     </Category>
-	
+
   </CategoryClasses>
 </Definitions>
+
