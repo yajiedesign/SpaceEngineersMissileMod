@@ -7,6 +7,7 @@ using Sandbox.ModAPI;
 using Sandbox.Common;
 using VRage.Game;
 using VRage.Game.Components;
+using VRage.Game.ModAPI;
 using VRage.Utils;
 
 namespace GuidedMissile.GuidedMissileScript

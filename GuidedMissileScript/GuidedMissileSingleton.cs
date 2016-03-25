@@ -5,6 +5,7 @@ using Sandbox.ModAPI;
 using Sandbox.ModAPI.Ingame;
 using VRage.Game;
 using VRage.Game.Components;
+using VRage.Game.ModAPI;
 using VRage.ModAPI;
 
 namespace GuidedMissile.GuidedMissileScript
@@ -109,7 +110,7 @@ namespace GuidedMissile.GuidedMissileScript
         }
         public static HashSet<IMyEntity> GetMissilesByTargetGrid(IMyEntity grid)
         {
-            if (grid != null && !(grid is Sandbox.ModAPI.IMyCubeGrid))
+            if (grid != null && !(grid is IMyCubeGrid))
             {
                 Log.Info("grid wasnt an actual grid!");
                 return null;

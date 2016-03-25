@@ -1,7 +1,5 @@
 ﻿using Sandbox;
 using Sandbox.Common;
-using Sandbox.Common.Components;
-using Sandbox.Common.ModAPI;
 using Sandbox.Common.ObjectBuilders;
 using Sandbox.Definitions;
 using Sandbox.Engine;
@@ -28,6 +26,7 @@ using VRage.Common.Utils;
 using VRage.Game;
 using VRage.Game.Components;
 using VRage.Game.Entity;
+using VRage.Game.ModAPI;
 using VRage.Input;
 using VRage.ModAPI;
 using VRage.ObjectBuilders;
