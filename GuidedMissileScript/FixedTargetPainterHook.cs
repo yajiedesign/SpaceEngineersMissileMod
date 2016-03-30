@@ -143,7 +143,6 @@ namespace GuidedMissile.GuidedMissileScript
         }
         public override void UpdateBeforeSimulation100()
         {
-            ModDebugger.Launch();
             var myEntity = Entity as MyEntity;
             var inv0 = myEntity.GetInventory(0);
 

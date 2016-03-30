@@ -99,6 +99,7 @@ namespace GuidedMissile.GuidedMissileScript
         }
         public bool AssignTarget(IMyEntity target)
         {
+            ModDebugger.Launch();
             Log.Info("called assignTarget with entity " + target);
             if (target == null) return false;
             // if(target.OwnerId == Entity.OwnerId) return false; //faction check?

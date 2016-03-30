@@ -6,7 +6,7 @@
         <TypeId>WeaponDefinition</TypeId>
         <SubtypeId>CruiseMissileLauncher</SubtypeId>
       </Id>
-      <MissileAmmoData RateOfFire="4" ShootSoundName="WepShipSmallMissileShot" />
+      <MissileAmmoData RateOfFire="4" ShootSoundName="WepShipSmallMissileShot" BurstFireRate="1" />
 
       <NoAmmoSoundName>WepShipGatlingNoAmmo</NoAmmoSoundName>
 
@@ -20,7 +20,7 @@
         <TypeId>WeaponDefinition</TypeId>
         <SubtypeId>CatapultTorpedoLauncher</SubtypeId>
       </Id>
-      <MissileAmmoData RateOfFire="2" ShootSoundName="WepShipSmallMissileShot" />
+      <MissileAmmoData RateOfFire="2" ShootSoundName="WepShipSmallMissileShot" BurstFireRate="1"/>
 
       <NoAmmoSoundName>WepShipGatlingNoAmmo</NoAmmoSoundName>
 
@@ -34,7 +34,7 @@
         <TypeId>WeaponDefinition</TypeId>
         <SubtypeId>SidewinderMissileLauncher</SubtypeId>
       </Id>
-      <MissileAmmoData RateOfFire="20" ShootSoundName="WepShipSmallMissileShot" />
+      <MissileAmmoData RateOfFire="20" ShootSoundName="WepShipSmallMissileShot" BurstFireRate="1"/>
 
       <NoAmmoSoundName>WepShipGatlingNoAmmo</NoAmmoSoundName>
 
@@ -48,7 +48,7 @@
         <TypeId>WeaponDefinition</TypeId>
         <SubtypeId>FlareLauncher</SubtypeId>
       </Id>
-      <MissileAmmoData RateOfFire="10" ShootSoundName="WepShipSmallMissileShot" />
+      <MissileAmmoData RateOfFire="10" ShootSoundName="WepShipSmallMissileShot" BurstFireRate="1"/>
 
       <NoAmmoSoundName>WepShipGatlingNoAmmo</NoAmmoSoundName>
 
@@ -62,7 +62,7 @@
         <TypeId>WeaponDefinition</TypeId>
         <SubtypeId>GuidedMissileTargeterWeapon</SubtypeId>
       </Id>
-      <MissileAmmoData RateOfFire="30" ShootSoundName="GuidedMissileTargeterWeapon" />
+      <MissileAmmoData RateOfFire="30" ShootSoundName="GuidedMissileTargeterWeapon" BurstFireRate="40"/>
       <DeviateShotAngle>0</DeviateShotAngle>
 
       <ReleaseTimeAfterFire>204</ReleaseTimeAfterFire>
@@ -77,7 +77,7 @@
         <TypeId>WeaponDefinition</TypeId>
         <SubtypeId>FixedTargetPainterWeapon</SubtypeId>
       </Id>
-      <MissileAmmoData RateOfFire="30" ShootSoundName="GuidedMissileTargeterWeapon" />
+      <MissileAmmoData RateOfFire="30" ShootSoundName="GuidedMissileTargeterWeapon" BurstFireRate="40" />
       <DeviateShotAngle>0</DeviateShotAngle>
 
       <ReleaseTimeAfterFire>204</ReleaseTimeAfterFire>

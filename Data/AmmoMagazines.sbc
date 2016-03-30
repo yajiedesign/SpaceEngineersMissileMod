@@ -74,7 +74,7 @@
       <Mass>100</Mass>
       <Volume>100</Volume>
       <Model>Models\Weapons\Ammo_Box.mwm</Model>
-      <Capacity>100</Capacity>
+      <Capacity>4</Capacity>
       <AmmoDefinitionId Subtype="GuidedMissileTargeterAmmo" />
     </AmmoMagazine> 
     
