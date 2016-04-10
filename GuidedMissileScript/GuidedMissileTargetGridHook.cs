@@ -2,10 +2,15 @@
 using Sandbox.ModAPI.Ingame;
 using System;
 using System.Collections.Generic;
+using Sandbox.Game.Multiplayer;
+using Sandbox.ModAPI;
 using VRage.Game;
 using VRage.Game.Components;
+using VRage.Game.ModAPI;
 using VRage.ModAPI;
 using VRage.ObjectBuilders;
+using VRage.Utils;
+using VRageMath;
 
 namespace GuidedMissile.GuidedMissileScript
 {
@@ -188,6 +193,44 @@ namespace GuidedMissile.GuidedMissileScript
                 }
                 base.UpdateBeforeSimulation10();
             }  **/
+
+
+        public override void UpdateAfterSimulation()
+        {
+            var player = MyAPIGateway.Session.Player;
+
+            if ((player != null) && (player.Controller != null) && (player.Controller.ControlledEntity != null) && (player.Controller.ControlledEntity.Entity != null))
+            {
+                if (player.Controller.ControlledEntity.Entity.GetTopMostParent().EntityId == Entity.EntityId)
+                {
+
+
+                    if (MyAPIGateway.Input.IsNewRightMousePressed())
+                    {
+                        ModDebugger.Launch();
+                        var view = MyAPIGateway.Session.Camera.WorldMatrix;
+                        var view2 = player.Controller.ControlledEntity.GetHeadMatrix(true, true, false);
+
+                        Ray directionRay = new Ray(view2.Translation, Vector3.Normalize(view.Forward));
+                        //var color = new Vector4(0.95f, 0.45f, 0.45f, 0.75f);
+
+                        //MyTransparentGeometry.AddLineBillboard("Firefly", color, directionRay.Position, view.Forward, 5000, 2);
+
+                        IMyEntity bestTarget = GuidedMissileCore.GetClosestTargetAlongRay(directionRay, 5000, 7.5, Entity.GetTopMostParent());
+
+
+                        if (bestTarget != null)
+                        {
+                            SetMissileTarget(bestTarget);
+                            var targetName = bestTarget.DisplayName;
+                            MyAPIGateway.Utilities.ShowNotification(targetName + " was set as missile target!", 1000, MyFontEnum.Red);
+                        }
+                    }
+                }
+            }
+            base.UpdateAfterSimulation();
+        }
+
         private HashSet<IMyEntity> _removeSet;
         public override void UpdateBeforeSimulation100()
         {

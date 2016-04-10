@@ -17,7 +17,7 @@
         <MissileMass>500</MissileMass>
         <MissileExplosionRadius>5</MissileExplosionRadius>
         <MissileModelName>Models\CruiseMissile_Large.mwm</MissileModelName>
-        <MissileAcceleration>15</MissileAcceleration>
+        <MissileAcceleration>30</MissileAcceleration>
         <MissileInitialSpeed>20</MissileInitialSpeed>
         <MissileSkipAcceleration>false</MissileSkipAcceleration>
         <MissileExplosionDamage>50000</MissileExplosionDamage> 

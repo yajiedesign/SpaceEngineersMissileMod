@@ -189,7 +189,7 @@ namespace GuidedMissile.GuidedMissileScript
                 //  if ((float)distance > safetyDistance) Log.Info("distance > safety distance for " + foundEntity.EntityId);
                 if (((float)angle < lowestDistance) && ((float)posDistance > safetyDistance) && (foundEntity.GetTopMostParent().GetType().ToString() == "Sandbox.Game.Entities.MyCubeGrid"))
                 {
-                    if (!ignoreSet.Contains(foundEntity))
+                    if (!ignoreSet.Contains(foundEntity.GetTopMostParent()))
                     {
                         bestTarget = foundEntity;
                         lowestDistance = (float)angle;
