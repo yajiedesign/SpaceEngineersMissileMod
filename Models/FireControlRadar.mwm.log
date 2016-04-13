@@ -1,0 +1,13 @@
+Running from: C:\Users\hu\AppData\Local\Temp\tmps17sjdtu 
+Command: E:\SteamLibrary\SteamApps\common\SpaceEngineers\Tools\MwmBuilder\MwmBuilder.exe /s:Content /m:FireControlRadar.fbx /o:.\ 
+: WARNING: 
+    Could not find Materials library folder.
+Textures\FireControlRadar_1_cm.dds: WARNING: 
+    Texture ColorMetalTexture does not exists!
+Textures\FireControlRadar_1_ng.dds: WARNING: 
+    Texture NormalGlossTexture does not exists!
+Textures\FireControlRadar_1_add.dds: WARNING: 
+    Texture AddMapsTexture does not exists!
+C:\Users\hu\AppData\Local\Temp\tmps17sjdtu\Content\FireControlRadar.fbx: Processed
+: 
+    : Finished in 0.3s

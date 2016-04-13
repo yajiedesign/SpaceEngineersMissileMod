@@ -1,0 +1,12 @@
+Command: D:\Program Files\Havok\HavokContentTools\hctStandAloneFilterManager.exe -t -s C:\Users\hu\AppData\Local\Temp\space_engineers_1sbommig.hko -p D:\BC\SpaceEngineers\Missile\MissileMod\Models\FireControlRadar.hkt D:\BC\SpaceEngineers\Missile\MissileMod\Models\FireControlRadar.hkt 
+[ Processing All Configurations... ]
+    
+    ========== Started: Sun Apr 10 19:51:38 2016, Configuration: default ==========
+    
+    [ [Physics 2012] Create Rigid Bodies Filter ]
+        Created 1 rigid bodies.
+    [ Prune Types Filter ]
+    [ Write to Platform Filter ]
+        Wrote layout for [Tagfile] to file [D:\BC\SpaceEngineers\Missile\MissileMod\Models\FireControlRadar.hkt].
+    
+    ========== Finished in 00:00:01, 0 Errors, 0 Warnings ==========
