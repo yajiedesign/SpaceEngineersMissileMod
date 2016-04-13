@@ -108,10 +108,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+    <ImportGroup Label="PropertySheets">
+    <Import Project="$(SolutionDir)\global.props" Condition="exists('$(SolutionDir)\global.props')" />
+  </ImportGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /y $(ProjectDir)\GuidedMissileScript\*.cs C:\Users\hu\AppData\Roaming\SpaceEngineers\Mods\Missile\Data\Scripts\GuidedMissileScript\
-copy /y $(ProjectDir)\Data\*.sbc C:\Users\hu\AppData\Roaming\SpaceEngineers\Mods\Missile\Data\</PostBuildEvent>
+    <PostBuildEvent>copy /y $(ProjectDir)\GuidedMissileScript\*.cs $(ModPath)\Data\Scripts\GuidedMissileScript\
+copy /y $(ProjectDir)\Data\*.sbc $(ModPath)\Data\</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
